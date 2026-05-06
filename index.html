@@ -7,6 +7,7 @@
 
 <style>
 
+/* ================= BASE ================= */
 *{
     margin:0;
     padding:0;
@@ -20,7 +21,7 @@ body{
     color:#00ff88;
 }
 
-/* MATRIX */
+/* ================= MATRIX BACKGROUND ================= */
 canvas{
     position:fixed;
     top:0;
@@ -44,7 +45,7 @@ canvas{
     to{opacity:1;}
 }
 
-/* SCREENS */
+/* ================= SCREENS ================= */
 .screen{
     position:fixed;
     inset:0;
@@ -53,24 +54,32 @@ canvas{
     justify-content:center;
     align-items:center;
     text-align:center;
-    padding:30px;
+    padding:20px;
 }
 
 .hidden{display:none;}
 
+/* ================= CONTAINER ================= */
 .container{
     width:90%;
     max-width:900px;
-    padding:40px;
+    padding:35px;
     border:1px solid rgba(0,255,136,0.4);
     background:rgba(0,0,0,0.78);
+    text-align:center;
 }
 
-/* TYPO */
-h1{font-size:3rem;}
+/* ================= TYPO ================= */
+h1{font-size:2.8rem;}
 h2{font-size:2rem;}
-p{font-size:1.1rem; line-height:1.8; color:#9effc9;}
 
+p{
+    font-size:1.05rem;
+    line-height:1.7;
+    color:#9effc9;
+}
+
+/* ================= BUTTON ================= */
 button{
     margin-top:20px;
     padding:14px 24px;
@@ -80,7 +89,7 @@ button{
     cursor:pointer;
 }
 
-/* GLITCH */
+/* ================= GLITCH ================= */
 .glitch{
     animation:glitch 1s infinite;
 }
@@ -93,21 +102,32 @@ button{
     100%{transform:translate(0);}
 }
 
-/* EVENT SCREEN BIG */
+/* ================= SCANSIONE GIALLO ================= */
+.yellowBlink{
+    color:#ffd400;
+    animation:blinkYellow 0.8s infinite;
+}
+
+@keyframes blinkYellow{
+    0%{opacity:1;}
+    50%{opacity:0.3;}
+    100%{opacity:1;}
+}
+
+/* ================= EVENT BOX ================= */
 .eventBox{
-    font-size:1.2rem;
     border:1px solid #00ff88;
-    padding:30px;
-    margin-top:20px;
+    padding:25px;
+    margin-top:15px;
 }
 
 .bigEvent{
-    font-size:2.2rem;
+    font-size:2rem;
     color:white;
     text-shadow:0 0 10px #00ff88;
 }
 
-/* FLASH GLITCH */
+/* ================= FLASH ================= */
 .flash{
     position:fixed;
     inset:0;
@@ -132,16 +152,16 @@ button{
 
 <body>
 
+<!-- MATRIX -->
 <canvas id="matrix"></canvas>
 <div class="overlay"></div>
 <div class="flash" id="flash"></div>
 
 <!-- AUDIO -->
 <audio id="boot" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8a4a00c64.mp3"></audio>
-<audio id="click" src="https://cdn.pixabay.com/download/audio/2022/03/16/audio_0f7b7c8b0f.mp3"></audio>
 <audio id="ambient" loop src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_3a5b7a5d14.mp3"></audio>
 
-<!-- SCREEN 1 -->
+<!-- ================= SCREEN 1 ================= -->
 <div class="screen" id="s1">
 <div class="container">
 
@@ -150,12 +170,12 @@ button{
 <p>
 ACCESSO NON AUTORIZZATO RILEVATO.<br><br>
 
-“SISTEMA FESTA 23.05” IDENTIFICATO NELLA RETE.<br><br>
+Evento classificato come: COMPLEANNO 23.05<br><br>
 
-Questo evento potrebbe contenere:
+Possibili effetti:
 - caos controllato
-- felicità improvvisa
-- perdita di memoria selettiva
+- risate improvvise
+- memoria compromessa
 </p>
 
 <button onclick="next(1)">CONTINUA</button>
@@ -163,17 +183,17 @@ Questo evento potrebbe contenere:
 </div>
 </div>
 
-<!-- SCREEN 2 -->
+<!-- ================= SCREEN 2 ================= -->
 <div class="screen hidden" id="s2">
 <div class="container">
 
-<h2 class="glitch">SCANSIONE IN CORSO...</h2>
+<h2 class="yellowBlink">SCANSIONE IN CORSO...</h2>
 
 <p>
-Sistema: analisi identità in corso...<br>
-Risultato: compatibile con eventi fuori controllo.<br><br>
+Sistema: analisi evento in corso...<br>
+Compatibilità: alta<br><br>
 
-“livello divertimento previsto: ALTO”
+“livello divertimento previsto: MASSIMO”
 </p>
 
 <button onclick="next(2)">ENTRA</button>
@@ -181,16 +201,18 @@ Risultato: compatibile con eventi fuori controllo.<br><br>
 </div>
 </div>
 
-<!-- SCREEN 3 -->
+<!-- ================= SCREEN 3 ================= -->
 <div class="screen hidden" id="s3">
 <div class="container">
 
 <h2>ACCESSO AUTORIZZATO</h2>
 
 <p>
-⚠ sistema segnala evento personale in arrivo ⚠<br><br>
+sistema segnala evento in arrivo<br><br>
 
-“utente classificato come: protagonista della serata”
+utente classificato: invito alla serata<br><br>
+
+⚠ presenza consigliata dal sistema ⚠
 </p>
 
 <button onclick="next(3)">PROSEGUI</button>
@@ -198,11 +220,11 @@ Risultato: compatibile con eventi fuori controllo.<br><br>
 </div>
 </div>
 
-<!-- SCREEN 4 BIG EVENT -->
+<!-- ================= SCREEN 4 ================= -->
 <div class="screen hidden" id="s4">
 <div class="container">
 
-<h2 class="glitch">EVENTO RILEVATO</h2>
+<h2>EVENTO RILEVATO</h2>
 
 <div class="eventBox">
 
@@ -217,9 +239,9 @@ LOCALITÀ: CASA DI ILARIA<br><br>
 STATUS: COMPLEANNO IN ARRIVO<br><br>
 
 FRASI SISTEMA:
-- “utente sta per iniziare una serata non recuperabile”
+- “utente classificato come: protagonista della serata”
 - “memoria consigliata: OFF”
-- “livello festa: massimo consentito”
+- “livello festa: massimo”
 
 <br><br>
 
@@ -233,17 +255,16 @@ COUNTDOWN:
 </div>
 </div>
 
-<!-- SCREEN 5 -->
+<!-- ================= SCREEN 5 ================= -->
 <div class="screen hidden" id="s5">
 <div class="container">
 
 <h1 class="glitch">TRASMISSIONE COMPLETATA</h1>
 
 <p>
-SISTEMA CONFERMATO:<br><br>
+Sistema confermato:<br><br>
 
-Il 23 maggio non sarà un evento normale.<br>
-Sarà un backup della realtà con bug di divertimento.<br><br>
+Il 23 maggio è stato registrato come evento ad alta priorità sociale.<br><br>
 
 “ACCESSO ALLA FESTA APPROVATO”
 </p>
@@ -253,21 +274,20 @@ Sarà un backup della realtà con bug di divertimento.<br><br>
 
 <script>
 
-/* AUDIO SYSTEM */
-window.onload = () => {
+/* BOOT */
+window.onload=function(){
 document.getElementById("boot").play();
 document.getElementById("ambient").play();
 }
 
-/* CLICK SOUND + FLASH */
+/* FLASH */
 function fx(){
-document.getElementById("click").play();
 let f=document.getElementById("flash");
 f.classList.add("active");
 setTimeout(()=>f.classList.remove("active"),300);
 }
 
-/* NAVIGATION */
+/* NAV */
 function next(n){
 fx();
 document.getElementById("s"+n).classList.add("hidden");
