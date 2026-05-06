@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Protocollo 23.05</title>
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family: monospace;
+    }
+
+    body{
+        background:black;
+        color:#00ff88;
+        overflow:hidden;
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+    }
+
+    canvas{
+        position:fixed;
+        top:0;
+        left:0;
+        z-index:0;
+    }
+
+    .container{
+        position:relative;
+        z-index:2;
+        text-align:center;
+        padding:40px;
+        border:1px solid #00ff88;
+        background:rgba(0,0,0,0.7);
+        backdrop-filter: blur(6px);
+        max-width:800px;
+        animation:flicker 3s infinite;
+    }
+
+    h1{
+        font-size:4rem;
+        margin-bottom:20px;
+        text-shadow:0 0 15px #00ff88;
+    }
+
+    .glitch{
+        position:relative;
+        animation:glitch 1s infinite;
+    }
+
+    .text{
+        font-size:1.3rem;
+        line-height:2;
+    }
+
+    .highlight{
+        color:white;
+        font-size:2rem;
+    }
+
+    .countdown{
+        margin-top:30px;
+        font-size:1.5rem;
+        color:#00ffee;
+    }
+
+    .warning{
+        margin-top:25px;
+        color:#ff0055;
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink{
+        50%{opacity:0;}
+    }
+
+    @keyframes flicker{
+        0%,18%,22%,25%,53%,57%,100%{
+            opacity:1;
+        }
+        20%,24%,55%{
+            opacity:0.4;
+        }
+    }
+
+    @keyframes glitch{
+        0%{transform:translate(0);}
+        20%{transform:translate(-2px,2px);}
+        40%{transform:translate(-2px,-2px);}
+        60%{transform:translate(2px,2px);}
+        80%{transform:translate(2px,-2px);}
+        100%{transform:translate(0);}
+    }
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="container">
+    <h1 class="glitch">PROTOCOLLO 23.05</h1>
+
+    <div class="text">
+        È stato identificato un evento anomalo nel continuum spazio-temporale.
+        <br><br>
+
+        Coordinate ufficiali:
+        <br>
+
+        <span class="highlight">
+            23 MAGGIO — ORE 19:30
+        </span>
+
+        <br><br>
+
+        Probabilità di caos controllato:
+        <br>
+        99.7%
+    </div>
+
+    <div class="countdown" id="countdown"></div>
+
+    <div class="warning">
+        PRESENZA CALDAMENTE OBBLIGATORIA
+    </div>
+</div>
+
+<script>
+
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+const letters = "01";
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+
+const drops = [];
+
+for(let x = 0; x < columns; x++)
+    drops[x] = 1;
+
+function draw(){
+    ctx.fillStyle = "rgba(0,0,0,0.05)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle = "#00ff88";
+    ctx.font = fontSize + "px monospace";
+
+    for(let i = 0; i < drops.length; i++){
+        const text = letters.charAt(Math.floor(Math.random()*letters.length));
+
+        ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+
+        if(drops[i]*fontSize > canvas.height && Math.random() > 0.975)
+            drops[i] = 0;
+
+        drops[i]++;
+    }
+}
+
+setInterval(draw, 33);
+
+const targetDate = new Date("2026-05-23T19:30:00");
+
+function updateCountdown(){
+
+    const now = new Date();
+    const diff = targetDate - now;
+
+    if(diff <= 0){
+        document.getElementById("countdown").innerHTML =
+        "⚠ EVENTO IN CORSO ⚠";
+        return;
+    }
+
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff / (1000*60*60)) % 24);
+    const minutes = Math.floor((diff / (1000*60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("countdown").innerHTML =
+    `Countdown: ${days}g ${hours}h ${minutes}m ${seconds}s`;
+}
+
+setInterval(updateCountdown, 1000);
+
+</script>
+
+</body>
+</html>
