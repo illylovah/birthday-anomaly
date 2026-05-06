@@ -1,29 +1,195 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocollo 23.05</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: monospace;
+}
+
+body{
+    background:black;
+    overflow:hidden;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#00ff88;
+}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:0;
+}
+
+.background-glow{
+    position:absolute;
+    width:600px;
+    height:600px;
+    background:radial-gradient(circle, rgba(0,255,136,0.15), transparent 70%);
+    filter:blur(40px);
+    animation:pulse 6s infinite alternate;
+    z-index:1;
+}
+
+.container{
+    position:relative;
+    z-index:3;
+    width:90%;
+    max-width:850px;
+    padding:45px;
+    border:1px solid rgba(0,255,136,0.5);
+    background:rgba(0,0,0,0.65);
+    backdrop-filter: blur(10px);
+    box-shadow:0 0 40px rgba(0,255,136,0.2);
+    text-align:center;
+    animation:flicker 4s infinite;
+}
+
+.glitch{
+    animation:glitch 1s infinite;
+}
+
+.warning{
+    margin-top:30px;
+    color:#ff004c;
+    animation:blink 1s infinite;
+}
+
+.screen{
+    position:fixed;
+    inset:0;
+    background:black;
+    z-index:10;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:30px;
+}
+
+.screen p{
+    max-width:700px;
+    line-height:2;
+    color:#9effc9;
+}
+
+.screen button{
+    background:black;
+    color:#00ff88;
+    border:1px solid #00ff88;
+    padding:15px 30px;
+    cursor:pointer;
+}
+
+.hidden{
+    display:none;
+}
+
+@keyframes glitch{
+    0%{transform:translate(0);}
+    20%{transform:translate(-2px,2px);}
+    40%{transform:translate(2px,-2px);}
+    60%{transform:translate(-2px,-2px);}
+    80%{transform:translate(2px,2px);}
+    100%{transform:translate(0);}
+}
+
+@keyframes blink{
+    50%{opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SCREEN 1 -->
+<div class="screen" id="screen1">
+    <h2>ATTENZIONE</h2>
+    <p>Stai entrando in un evento ad alto caos sociale.</p>
+    <button onclick="nextScreen()">CONTINUA</button>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="screen hidden" id="screen2">
+    <h2 class="glitch">SCANSIONE...</h2>
+    <p>Accesso in preparazione.</p>
+    <button onclick="startExperience()">ENTRA</button>
+</div>
+
+<!-- FINAL SCREEN (CORRETTO) -->
 <div class="screen hidden" id="finalScreen">
 
-    <h2 class="glitch">
-        TRASMISSIONE COMPLETATA
-    </h2>
+    <h2 class="glitch">TRASMISSIONE COMPLETATA</h2>
 
     <p>
-
-        Grazie per aver completato con successo
-        il protocollo di accesso all’evento.
-
-        <br><br>
-
-        La vostra presenza contribuirà significativamente
-        al livello generale di caos della serata.
-
-        <br><br>
-
-        Per motivi organizzativi e logistici,
-        è fortemente consigliato segnalare la propria presenza
-        tramite il sondaggio WhatsApp ufficiale.
-
-        <br><br>
-
-        Il sistema apprezza la collaborazione.
-
+        Grazie per aver completato il protocollo.<br><br>
+        La vostra presenza aumenterà il caos della serata.<br><br>
+        Si consiglia conferma via WhatsApp.
     </p>
 
 </div>
+
+<!-- MAIN -->
+<div class="container">
+
+    <h1 class="glitch">ACCESSO AUTORIZZATO</h1>
+
+    <div class="warning">
+        ⚠ PRESENZA FORTEMENTE CONSIGLIATA ⚠
+    </div>
+
+    <!-- BOTTONE FINALE -->
+    <br>
+    <button onclick="openFinalScreen()" style="
+        margin-top:20px;
+        background:black;
+        color:#00ff88;
+        border:1px solid #00ff88;
+        padding:15px 25px;
+        cursor:pointer;
+        font-family:monospace;
+    ">
+        TERMINA ACCESSO
+    </button>
+
+</div>
+
+<!-- AUDIO (UNO SOLO!) -->
+<audio id="bgAudio" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8a4a00c64.mp3?filename=dark-ambient-11157.mp3">
+</audio>
+
+<script>
+
+function nextScreen(){
+    document.getElementById("screen1").classList.add("hidden");
+    document.getElementById("screen2").classList.remove("hidden");
+}
+
+function startExperience(){
+    document.getElementById("screen2").classList.add("hidden");
+    document.getElementById("bgAudio").play();
+}
+
+function openFinalScreen(){
+    document.getElementById("finalScreen").classList.remove("hidden");
+}
+
+</script>
+
+</body>
+</html>
