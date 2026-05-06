@@ -7,7 +7,7 @@
 
 <style>
 
-/* ================= RESET ================= */
+/* ================= BASE ================= */
 *{
     margin:0;
     padding:0;
@@ -31,9 +31,7 @@ canvas{
     position:fixed;
     inset:0;
     z-index:1;
-    background: radial-gradient(circle at center,
-        rgba(0,255,136,0.12),
-        transparent 60%);
+    background: radial-gradient(circle, rgba(0,255,136,0.10), transparent 60%);
     animation:pulse 4s infinite alternate;
     pointer-events:none;
 }
@@ -62,43 +60,44 @@ canvas{
     max-width:850px;
 }
 
-/* ================= PAGE 1 RED ================= */
-#s1{
-    background:#b30000;
-}
-
-/* ================= PAGE 2 YELLOW ================= */
-#s2{
-    background:#ffd400;
-    color:black;
-}
-
-/* ================= PAGE 3 BLACK ================= */
-#s3{
-    background:black;
-    color:#00ff88;
-}
-
-/* ================= PAGE 4 BLACK ================= */
-#s4{
-    background:black;
-    color:#00ff88;
-}
+/* ================= COLORS PAGES ================= */
+#s1{background:#b30000;}
+#s2{background:#ffd400; color:black;}
+#s3{background:black; color:#00ff88;}
+#s4{background:black; color:#00ff88;}
 
 /* ================= TYPO ================= */
 h1{
     font-size:2.6rem;
     margin-bottom:20px;
+    animation:fadeIn 1s ease-in;
 }
 
 h2{
     font-size:2rem;
     margin-bottom:15px;
+    animation:fadeIn 1s ease-in;
 }
 
 p{
     font-size:1.1rem;
     line-height:1.7;
+    animation:fadeIn 1.5s ease-in;
+}
+
+/* ================= FADE ANIMATION ================= */
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* ================= BLINK ================= */
+.blink{
+    animation:blink 0.8s infinite;
+}
+
+@keyframes blink{
+    50%{opacity:0.2;}
 }
 
 /* ================= BUTTON ================= */
@@ -109,15 +108,6 @@ button{
     background:transparent;
     color:inherit;
     cursor:pointer;
-}
-
-/* ================= BLINK ================= */
-.blink{
-    animation:blink 0.8s infinite;
-}
-
-@keyframes blink{
-    50%{opacity:0.2;}
 }
 
 /* ================= EVENT BOX ================= */
@@ -133,13 +123,20 @@ button{
     text-shadow:0 0 10px #00ff88;
 }
 
-/* ================= COUNTDOWN ================= */
-#countdown{
-    margin-top:10px;
-    font-size:1.2rem;
+/* ================= MATRIX TEXT LAYER ================= */
+.matrix-text{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    opacity:0.08;
+    pointer-events:none;
+    font-size:14px;
+    color:#00ff88;
+    white-space:pre;
+    overflow:hidden;
 }
 
-/* ================= CENTER FIX MOBILE ================= */
+/* ================= CENTER ================= */
 .container{
     text-align:center;
 }
@@ -149,9 +146,12 @@ button{
 
 <body>
 
-<!-- MATRIX BACKGROUND -->
+<!-- MATRIX CANVAS -->
 <canvas id="matrix"></canvas>
 <div class="overlay"></div>
+
+<!-- SCROLLING CODE TEXT LAYER -->
+<div class="matrix-text" id="matrixText"></div>
 
 <!-- ================= PAGE 1 ================= -->
 <div class="screen" id="s1">
@@ -162,9 +162,9 @@ button{
 <p>
 ACCESSO NON AUTORIZZATO RILEVATO<br><br>
 
-Evento identificato: COMPLEANNO IN ARRIVO<br><br>
+Evento classificato come: COMPLEANNO ATTIVO<br><br>
 
-Sistema in modalità emergenza sociale.
+Sistema in stato di controllo emergenza.
 </p>
 
 <button onclick="next(1)">CONTINUA</button>
@@ -179,10 +179,10 @@ Sistema in modalità emergenza sociale.
 <h2 class="blink">SCANSIONE IN CORSO...</h2>
 
 <p>
-Analisi sistema evento...<br><br>
+Analisi in esecuzione...<br><br>
 
-⚠ rischio divertimento: massimo ⚠<br>
-⚠ stabilità sociale: instabile ⚠
+⚠ livello divertimento: MASSIMO ⚠<br>
+⚠ stabilità sistema: instabile ⚠
 </p>
 
 <button onclick="next(2)">ENTRA</button>
@@ -224,9 +224,9 @@ CASA DI ILARIA<br><br>
 STATUS: COMPLEANNO ATTIVO<br><br>
 
 FRASI SISTEMA:<br>
-- utente classificato: protagonista evento<br>
-- memoria consigliata: OFF<br>
-- livello festa: massimo
+- utente classificato: protagonista serata<br>
+- memoria: non garantita<br>
+- caos level: massimo
 
 <br><br>
 
@@ -238,8 +238,8 @@ COUNTDOWN:<br>
 <br>
 
 <p>
-Per confermare la presenza è obbligatorio<br>
-compilare il sondaggio WhatsApp dell’evento.
+⚠ conferma obbligatoria presenza su WhatsApp ⚠<br>
+Il sistema richiede risposta per validare l’accesso evento.
 </p>
 
 </div>
@@ -247,39 +247,52 @@ compilare il sondaggio WhatsApp dell’evento.
 
 <script>
 
-/* ================= MATRIX ================= */
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
+/* ================= MATRIX CANVAS ================= */
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 
-const chars = "01アイウエオカキクケコ";
-const font = 14;
-const cols = canvas.width / font;
+const chars="01アイウエオカキクケコ";
+const font=14;
+const cols=canvas.width/font;
 
-const drops = Array(Math.floor(cols)).fill(1);
+const drops=Array(Math.floor(cols)).fill(1);
 
 function draw(){
+ctx.fillStyle="rgba(0,0,0,0.08)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    ctx.fillStyle = "rgba(0,0,0,0.08)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="#00ff88";
+ctx.font=font+"px monospace";
 
-    ctx.fillStyle = "#00ff88";
-    ctx.font = font + "px monospace";
+for(let i=0;i<drops.length;i++){
+let t=chars[Math.floor(Math.random()*chars.length)];
+ctx.fillText(t,i*font,drops[i]*font);
 
-    for(let i=0;i<drops.length;i++){
-        let t = chars[Math.floor(Math.random()*chars.length)];
-        ctx.fillText(t,i*font,drops[i]*font);
-
-        if(drops[i]*font > canvas.height && Math.random() > 0.975){
-            drops[i] = 0;
-        }
-        drops[i]++;
-    }
+if(drops[i]*font>canvas.height && Math.random()>0.975){
+drops[i]=0;
+}
+drops[i]++;
+}
 }
 
 setInterval(draw,30);
+
+/* ================= SCROLLING MATRIX TEXT ================= */
+const matrixText = document.getElementById("matrixText");
+
+function generateText(){
+let text = "";
+for(let i=0;i<200;i++){
+text += Math.random()>0.5 ? "01 " : "██ ";
+if(i%40===0) text += "\n";
+}
+matrixText.innerText = text;
+}
+
+setInterval(generateText,200);
 
 /* ================= NAV ================= */
 function next(n){
@@ -288,18 +301,18 @@ document.getElementById("s"+(n+1)).classList.remove("hidden");
 }
 
 /* ================= COUNTDOWN ================= */
-const target = new Date("2026-05-23T19:30:00");
+const target=new Date("2026-05-23T19:30:00");
 
 function update(){
-let now = new Date();
-let d = target - now;
+let now=new Date();
+let d=target-now;
 
-let days = Math.floor(d/86400000);
-let h = Math.floor(d%86400000/3600000);
-let m = Math.floor(d%3600000/60000);
-let s = Math.floor(d%60000/1000);
+let days=Math.floor(d/86400000);
+let h=Math.floor(d%86400000/3600000);
+let m=Math.floor(d%3600000/60000);
+let s=Math.floor(d%60000/1000);
 
-document.getElementById("countdown").innerHTML =
+document.getElementById("countdown").innerHTML=
 `${days}g ${h}h ${m}m ${s}s`;
 }
 
