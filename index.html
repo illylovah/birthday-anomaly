@@ -59,17 +59,20 @@ canvas{
 h1{
     font-size:2.6rem;
     margin-bottom:25px;
+    opacity:1; /* 🔥 SEMPRE PIENO */
 }
 
 h2{
     font-size:2.2rem;
     margin-bottom:25px;
+    opacity:1;
 }
 
 p{
     font-size:1.1rem;
     line-height:2;
     margin-bottom:25px;
+    opacity:1;
 }
 
 /* ================= COLORS ================= */
@@ -105,19 +108,21 @@ button{
 @keyframes glow{
     50%{
         box-shadow:0 0 25px #00ff88;
-        opacity:0.6;
     }
 }
 
-/* ================= FADE ================= */
-h1,h2,p{
-    animation:fade 0.7s ease forwards;
+/* ================= FADE IN ONLY ================= */
+.fadeIn{
+    animation:fadeIn 0.7s ease forwards;
     opacity:0;
     transform:translateY(10px);
 }
 
-@keyframes fade{
-    to{opacity:1; transform:translateY(0);}
+@keyframes fadeIn{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 </style>
@@ -131,9 +136,9 @@ h1,h2,p{
 <div class="screen" id="s1">
 <div class="container">
 
-<h1 class="red blink">ALLARME SISTEMA</h1>
+<h1 class="red blink fadeIn">ALLARME SISTEMA</h1>
 
-<p class="red">
+<p class="red fadeIn">
 ACCESSO NON AUTORIZZATO<br>
 EVENTO COMPLEANNO RILEVATO
 </p>
@@ -147,9 +152,9 @@ EVENTO COMPLEANNO RILEVATO
 <div class="screen hidden" id="s2">
 <div class="container">
 
-<h2 class="yellow blink">SCANSIONE IN CORSO</h2>
+<h2 class="yellow blink fadeIn">SCANSIONE IN CORSO</h2>
 
-<p class="yellow">
+<p class="yellow fadeIn">
 Analisi sistema evento<br>
 ⚠ livello festa massimo ⚠
 </p>
@@ -165,9 +170,9 @@ Analisi sistema evento<br>
 
 <div class="greenBox">
 
-<h1 class="green">ACCESSO AUTORIZZATO</h1>
+<h1 class="green fadeIn">ACCESSO AUTORIZZATO</h1>
 
-<p class="green">
+<p class="green fadeIn">
 presenza consigliata dal sistema
 </p>
 
@@ -182,9 +187,9 @@ presenza consigliata dal sistema
 <div class="screen hidden" id="s4">
 <div class="container">
 
-<h2 class="green">EVENTO RILEVATO</h2>
+<h2 class="green fadeIn">EVENTO RILEVATO</h2>
 
-<p class="green">
+<p class="green fadeIn">
 🎉 23 MAGGIO — 19:30 🎉<br><br>
 
 CASA DI ILARIA<br><br>
@@ -199,19 +204,17 @@ COUNTDOWN:<br>
 </div>
 </div>
 
-<!-- ================= PAGE 5 (NUOVA WHATSAPP REQUEST) ================= -->
+<!-- ================= PAGE 5 ================= -->
 <div class="screen hidden" id="s5">
 <div class="container">
 
-<h2 class="yellow blink">
+<h2 class="yellow blink fadeIn">
 RICHIESTA CONFERMA PRESENZA SU WHATSAPP
 </h2>
 
-<p class="green">
-Il sistema ha rilevato un evento attivo.<br><br>
-
-Per procedere è richiesta la conferma dell’utente<br>
-tramite canale WhatsApp ufficiale.
+<p class="green fadeIn">
+Il sistema richiede conferma utente<br>
+tramite sondaggio WhatsApp ufficiale
 </p>
 
 <button class="green" onclick="next(5)">PROSEGUI</button>
@@ -223,9 +226,9 @@ tramite canale WhatsApp ufficiale.
 <div class="screen hidden" id="s6">
 <div class="container">
 
-<h2 class="yellow">CONFERMA PRESENZA</h2>
+<h2 class="yellow fadeIn">CONFERMA PRESENZA</h2>
 
-<p class="yellow">
+<p class="yellow fadeIn">
 è richiesta la conferma di presenza nel so faggio su whatsapp
 </p>
 
