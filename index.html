@@ -7,7 +7,6 @@
 
 <style>
 
-/* ================= RESET ================= */
 *{
     margin:0;
     padding:0;
@@ -21,12 +20,21 @@ html,body{
     overflow:hidden;
 }
 
-/* ================= SCREENS ================= */
+/* ================= CANVAS MATRIX ================= */
+canvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:0;
+}
+
+/* ================= SCREEN SYSTEM ================= */
 .screen{
     position:fixed;
     inset:0;
-    width:100vw;
-    height:100vh;
+    width:100%;
+    height:100%;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -38,35 +46,69 @@ html,body{
 .hidden{display:none;}
 
 .container{
-    width:100%;
     max-width:900px;
-    position:relative;
+    width:100%;
     z-index:2;
+    position:relative;
 }
 
-/* ================= TYPO ================= */
-h1{
-    font-size:2.6rem;
-    white-space:nowrap; /* FORZA UNA RIGA */
+/* ================= TEXT ================= */
+h1,h2,p{
+    animation:fade 0.8s ease forwards;
+    opacity:0;
+    transform:translateY(15px);
 }
 
-h2{
-    font-size:2.2rem;
-    white-space:nowrap; /* FORZA UNA RIGA */
+@keyframes fade{
+    to{opacity:1; transform:translateY(0);}
 }
 
-p{
-    font-size:1.1rem;
-    line-height:1.7;
+/* ================= PAGE 1 RED ================= */
+#s1{
+    background:linear-gradient(45deg,#4b0000,#ff0000,#7a0000);
+    color:white;
+    position:relative;
+    overflow:hidden;
 }
 
-/* ================= BLINK ================= */
-.blink{
-    animation:blink 0.6s infinite;
+#s1 h1{
+    animation:blink 0.7s infinite;
 }
 
 @keyframes blink{
     50%{opacity:0.2;}
+}
+
+/* sirena */
+#s1::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle,
+        rgba(255,0,0,0.8),
+        transparent 70%);
+    animation:siren 1s infinite alternate;
+}
+
+@keyframes siren{
+    from{transform:scale(1);opacity:0.4;}
+    to{transform:scale(1.3);opacity:1;}
+}
+
+/* ================= PAGE 2 YELLOW ================= */
+#s2{
+    background:#ffd400;
+    color:black;
+}
+
+#s2 h2{
+    animation:blink 0.6s infinite;
+}
+
+/* ================= PAGE 3 MATRIX GREEN ================= */
+#s3,#s4,#s5{
+    background:black;
+    color:#00ff88;
 }
 
 /* ================= BUTTON ================= */
@@ -78,70 +120,16 @@ button{
     color:inherit;
 }
 
-/* ================= PAGES ================= */
-#s1{background:#8b0000;color:white;}
-#s2{background:#ffd400;color:black;}
-#s3{background:black;color:#00ff88;}
-#s4{background:black;color:#00ff88;}
-#s5{background:black;color:#00ff88;}
-
-/* ================= MATRIX ================= */
-canvas{
-    position:fixed;
-    inset:0;
-    z-index:0;
-}
-
-.overlay{
-    position:fixed;
-    inset:0;
-    z-index:1;
-    background:radial-gradient(circle,
-        rgba(0,255,136,0.12),
-        transparent 60%);
-}
-
-/* ================= PAGE 1 SIREN ================= */
-#s1::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:radial-gradient(circle,
-        rgba(255,0,0,0.9),
-        rgba(255,80,80,0.2),
-        transparent 70%);
-    animation:siren 1s infinite alternate;
-    z-index:0;
-}
-
-@keyframes siren{
-    from{transform:scale(1);opacity:0.4;}
-    to{transform:scale(1.3);opacity:1;}
-}
-
-/* ================= PAGE 3 MATRIX BACKGROUND STRONG ================= */
-.matrix-bg{
-    position:absolute;
-    inset:0;
-    z-index:0;
-}
-
-/* ================= CONTENT FRONT ================= */
-.container{
-    position:relative;
-    z-index:2;
-}
-
-/* ================= EVENT BOX ================= */
+/* ================= BOX EVENT ================= */
 .box{
     border:2px solid #00ff88;
     padding:20px;
     font-size:1.2rem;
 }
 
-/* ================= FINAL PAGE ================= */
-#s5 p{
-    font-size:1.2rem;
+/* ================= FINAL ================= */
+.finalText{
+    font-size:1.3rem;
 }
 
 </style>
@@ -150,14 +138,12 @@ canvas{
 <body>
 
 <canvas id="matrix"></canvas>
-<div class="overlay"></div>
 
 <!-- ================= PAGE 1 ================= -->
 <div class="screen" id="s1">
-
 <div class="container">
 
-<h1>⚠ ALLARME SISTEMA ⚠</h1>
+<h1>ALLARME SISTEMA</h1>
 
 <p>
 ACCESSO NON AUTORIZZATO<br>
@@ -171,13 +157,12 @@ EVENTO COMPLEANNO RILEVATO
 
 <!-- ================= PAGE 2 ================= -->
 <div class="screen hidden" id="s2">
-
 <div class="container">
 
-<h2 class="blink">SCANSIONE IN CORSO</h2>
+<h2>SCANSIONE IN CORSO</h2>
 
 <p>
-Analisi sistema evento<br>
+Analisi evento sistema<br>
 ⚠ livello festa massimo ⚠
 </p>
 
@@ -188,7 +173,6 @@ Analisi sistema evento<br>
 
 <!-- ================= PAGE 3 ================= -->
 <div class="screen hidden" id="s3">
-
 <div class="container">
 
 <h1>ACCESSO AUTORIZZATO</h1>
@@ -202,7 +186,6 @@ Analisi sistema evento<br>
 
 <!-- ================= PAGE 4 ================= -->
 <div class="screen hidden" id="s4">
-
 <div class="container">
 
 <h2>EVENTO RILEVATO</h2>
@@ -223,12 +206,11 @@ COUNTDOWN:<br>
 
 <!-- ================= PAGE 5 ================= -->
 <div class="screen hidden" id="s5">
-
 <div class="container">
 
-<h2>⚠ CONFERMA RICHIESTA ⚠</h2>
+<h2>CONFERMA RICHIESTA</h2>
 
-<p>
+<p class="finalText">
 Segnala la tua presenza su WhatsApp<br><br>
 
 Il sistema richiede conferma per validare l’accesso evento.
