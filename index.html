@@ -32,7 +32,7 @@ canvas{
     z-index:0;
 }
 
-/* overlay scuro */
+/* overlay */
 body::after{
     content:"";
     position:fixed;
@@ -86,7 +86,7 @@ p{font-size:1.1rem;}
 .yellow{color:#ffd400;}
 .green{color:#00ff88;}
 
-/* ================= BUTTONS (NUOVO STILE) ================= */
+/* ================= BUTTONS ================= */
 button{
     margin-top:25px;
     padding:14px 24px;
@@ -118,7 +118,7 @@ button:hover{
     50%{opacity:0.2;}
 }
 
-/* ================= GREEN BOX ================= */
+/* ================= BOX ================= */
 .greenBox{
     border:2px solid #00ff88;
     padding:25px;
@@ -205,12 +205,8 @@ Presenza consigliata dal sistema
 <p class="green">
 🎉 23 MAGGIO — 19:30 🎉<br><br>
 
-CASA DI ILARIA<br><br>
-
-COUNTDOWN:
+CASA DI ILARIA
 </p>
-
-<div class="green" id="countdown"></div>
 
 </div>
 
@@ -236,13 +232,13 @@ Il sistema rileva evento in preparazione
 </div>
 </div>
 
-<!-- ================= PAGE 6 FINAL ================= -->
+<!-- ================= FINAL PAGE (COUNTDOWN) ================= -->
 <div class="screen hidden" id="s6">
 <div class="container">
 
 <h1 class="green blink">COUNTDOWN EVENTO</h1>
 
-<h2 class="yellow" id="countdown"></h2>
+<h2 class="yellow" id="countdownFinal"></h2>
 
 </div>
 </div>
@@ -290,29 +286,32 @@ document.getElementById("s"+n).classList.add("hidden");
 document.getElementById("s"+(n+1)).classList.remove("hidden");
 }
 
-/* ================= COUNTDOWN ================= */
-const target=new Date("2026-05-23T19:30:00");
+/* ================= COUNTDOWN FINAL ================= */
+const target = new Date("2026-05-23T19:30:00");
 
-function update(){
-let now=new Date();
-let d=target-now;
+function updateCountdownFinal(){
 
-if(d<=0){
-document.getElementById("countdown").innerHTML="⚠ EVENTO IN CORSO ⚠";
+let now = new Date();
+let d = target - now;
+
+let el = document.getElementById("countdownFinal");
+if(!el) return;
+
+if(d <= 0){
+el.innerHTML = "⚠ EVENTO IN CORSO ⚠";
 return;
 }
 
-let days=Math.floor(d/86400000);
-let h=Math.floor(d%86400000/3600000);
-let m=Math.floor(d%3600000/60000);
-let s=Math.floor(d%60000/1000);
+let days = Math.floor(d / 86400000);
+let h = Math.floor((d % 86400000) / 3600000);
+let m = Math.floor((d % 3600000) / 60000);
+let s = Math.floor((d % 60000) / 1000);
 
-document.getElementById("countdown").innerHTML=
-`${days}g ${h}h ${m}m ${s}s`;
+el.innerHTML = `${days}g ${h}h ${m}m ${s}s`;
 }
 
-setInterval(update,1000);
-update();
+setInterval(updateCountdownFinal, 1000);
+updateCountdownFinal();
 
 </script>
 
