@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Protocollo 23.05</title>
+<title>Protocollo Evento</title>
 
 <style>
 
-/* ================= BASE ================= */
 *{
     margin:0;
     padding:0;
@@ -16,40 +15,14 @@
 }
 
 body{
-    background:black;
     overflow:hidden;
-    color:#00ff88;
-}
-
-/* ================= MATRIX BACKGROUND ================= */
-canvas{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    z-index:0;
-}
-
-.overlay{
-    position:fixed;
-    inset:0;
-    background: radial-gradient(circle, rgba(0,255,136,0.10), transparent 60%);
-    z-index:1;
-    animation:pulse 5s infinite alternate;
-    pointer-events:none;
-}
-
-@keyframes pulse{
-    from{opacity:0.4;}
-    to{opacity:1;}
+    color:white;
 }
 
 /* ================= SCREENS ================= */
 .screen{
     position:fixed;
     inset:0;
-    z-index:10;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -59,92 +32,80 @@ canvas{
 
 .hidden{display:none;}
 
-/* ================= CONTAINER ================= */
 .container{
     width:90%;
     max-width:900px;
-    padding:35px;
-    border:1px solid rgba(0,255,136,0.4);
-    background:rgba(0,0,0,0.78);
-    text-align:center;
 }
 
-/* ================= TYPO ================= */
-h1{font-size:2.8rem;}
-h2{font-size:2rem;}
+/* ================= PAGE 1 RED ================= */
+#s1{
+    background:#b30000;
+    color:white;
+}
+
+/* ================= PAGE 2 YELLOW ================= */
+#s2{
+    background:#ffd400;
+    color:black;
+}
+
+/* ================= PAGE 3 DARK ================= */
+#s3{
+    background:black;
+    color:#00ff88;
+}
+
+/* ================= PAGE 4 ================= */
+#s4{
+    background:black;
+    color:#00ff88;
+}
+
+/* ================= PAGE 5 ================= */
+#s5{
+    background:black;
+    color:white;
+}
+
+/* ================= TEXT ================= */
+h1{
+    font-size:2.5rem;
+    margin-bottom:20px;
+}
+
+h2{
+    font-size:2rem;
+    margin-bottom:15px;
+}
 
 p{
-    font-size:1.05rem;
+    font-size:1.1rem;
     line-height:1.7;
-    color:#9effc9;
 }
 
 /* ================= BUTTON ================= */
 button{
     margin-top:20px;
     padding:14px 24px;
-    background:black;
-    color:#00ff88;
-    border:1px solid #00ff88;
+    border:1px solid white;
+    background:transparent;
+    color:inherit;
     cursor:pointer;
 }
 
-/* ================= GLITCH ================= */
-.glitch{
-    animation:glitch 1s infinite;
+/* ================= BLINK ================= */
+.blink{
+    animation:blink 0.8s infinite;
 }
 
-@keyframes glitch{
-    0%{transform:translate(0);}
-    25%{transform:translate(-2px,2px);}
-    50%{transform:translate(2px,-2px);}
-    75%{transform:translate(-2px,-2px);}
-    100%{transform:translate(0);}
+@keyframes blink{
+    50%{opacity:0.2;}
 }
 
-/* ================= SCANSIONE GIALLO ================= */
-.yellowBlink{
-    color:#ffd400;
-    animation:blinkYellow 0.8s infinite;
-}
-
-@keyframes blinkYellow{
-    0%{opacity:1;}
-    50%{opacity:0.3;}
-    100%{opacity:1;}
-}
-
-/* ================= EVENT BOX ================= */
-.eventBox{
-    border:1px solid #00ff88;
-    padding:25px;
-    margin-top:15px;
-}
-
-.bigEvent{
-    font-size:2rem;
-    color:white;
-    text-shadow:0 0 10px #00ff88;
-}
-
-/* ================= FLASH ================= */
-.flash{
-    position:fixed;
-    inset:0;
-    background:white;
-    opacity:0;
-    z-index:999;
-    pointer-events:none;
-}
-
-.flash.active{
-    animation:flash .3s;
-}
-
-@keyframes flash{
-    0%{opacity:0;}
-    50%{opacity:0.6;}
-    100%{opacity:0;}
+/* ================= COUNTDOWN ================= */
+#countdown{
+    margin-top:10px;
+    font-size:1.2rem;
 }
 
 </style>
@@ -152,30 +113,18 @@ button{
 
 <body>
 
-<!-- MATRIX -->
-<canvas id="matrix"></canvas>
-<div class="overlay"></div>
-<div class="flash" id="flash"></div>
-
-<!-- AUDIO -->
-<audio id="boot" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8a4a00c64.mp3"></audio>
-<audio id="ambient" loop src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_3a5b7a5d14.mp3"></audio>
-
-<!-- ================= SCREEN 1 ================= -->
+<!-- ================= PAGE 1 ================= -->
 <div class="screen" id="s1">
 <div class="container">
 
-<h1>ATTENZIONE</h1>
+<h1>⚠ ALLARME SISTEMA ⚠</h1>
 
 <p>
-ACCESSO NON AUTORIZZATO RILEVATO.<br><br>
+ACCESSO NON AUTORIZZATO RILEVATO<br><br>
 
-Evento classificato come: COMPLEANNO 23.05<br><br>
+Evento identificato: COMPLEANNO 23 MAGGIO<br><br>
 
-Possibili effetti:
-- caos controllato
-- risate improvvise
-- memoria compromessa
+Sistema in modalità emergenza sociale.
 </p>
 
 <button onclick="next(1)">CONTINUA</button>
@@ -183,17 +132,17 @@ Possibili effetti:
 </div>
 </div>
 
-<!-- ================= SCREEN 2 ================= -->
+<!-- ================= PAGE 2 ================= -->
 <div class="screen hidden" id="s2">
 <div class="container">
 
-<h2 class="yellowBlink">SCANSIONE IN CORSO...</h2>
+<h2>SCANSIONE IN CORSO...</h2>
 
 <p>
-Sistema: analisi evento in corso...<br>
-Compatibilità: alta<br><br>
+ANALISI EVENTO IN ESECUZIONE<br><br>
 
-“livello divertimento previsto: MASSIMO”
+⚠ RISCHIO DIVERTIMENTO: MASSIMO ⚠<br>
+⚠ STABILITÀ SOCIALE: COMPROMESSA ⚠
 </p>
 
 <button onclick="next(2)">ENTRA</button>
@@ -201,18 +150,14 @@ Compatibilità: alta<br><br>
 </div>
 </div>
 
-<!-- ================= SCREEN 3 ================= -->
+<!-- ================= PAGE 3 ================= -->
 <div class="screen hidden" id="s3">
 <div class="container">
 
 <h2>ACCESSO AUTORIZZATO</h2>
 
-<p>
-sistema segnala evento in arrivo<br><br>
-
-utente classificato: invito alla serata<br><br>
-
-⚠ presenza consigliata dal sistema ⚠
+<p class="blink">
+presenza consigliata dal sistema
 </p>
 
 <button onclick="next(3)">PROSEGUI</button>
@@ -220,53 +165,40 @@ utente classificato: invito alla serata<br><br>
 </div>
 </div>
 
-<!-- ================= SCREEN 4 ================= -->
+<!-- ================= PAGE 4 ================= -->
 <div class="screen hidden" id="s4">
 <div class="container">
 
 <h2>EVENTO RILEVATO</h2>
 
-<div class="eventBox">
+<p>
+🎉 23 MAGGIO — 19:30 🎉<br><br>
 
-<div class="bigEvent">
-🎉 23 MAGGIO — 19:30 🎉
-</div>
-
-<br>
-
-LOCALITÀ: CASA DI ILARIA<br><br>
+CASA DI ILARIA<br><br>
 
 STATUS: COMPLEANNO IN ARRIVO<br><br>
 
-FRASI SISTEMA:
-- “utente classificato come: protagonista della serata”
-- “memoria consigliata: OFF”
-- “livello festa: massimo”
-
-<br><br>
-
-COUNTDOWN:
+COUNTDOWN:<br>
 <div id="countdown"></div>
-
-</div>
+</p>
 
 <button onclick="next(4)">CONTINUA</button>
 
 </div>
 </div>
 
-<!-- ================= SCREEN 5 ================= -->
+<!-- ================= PAGE 5 ================= -->
 <div class="screen hidden" id="s5">
 <div class="container">
 
-<h1 class="glitch">TRASMISSIONE COMPLETATA</h1>
+<h2>TRASMISSIONE COMPLETATA</h2>
 
 <p>
-Sistema confermato:<br><br>
+Per confermare la tua presenza è obbligatorio<br><br>
 
-Il 23 maggio è stato registrato come evento ad alta priorità sociale.<br><br>
+compilare il sondaggio WhatsApp ufficiale dell’evento.<br><br>
 
-“ACCESSO ALLA FESTA APPROVATO”
+⚠ SENZA CONFERMA LA PRESENZA NON È REGISTRATA ⚠
 </p>
 
 </div>
@@ -274,55 +206,11 @@ Il 23 maggio è stato registrato come evento ad alta priorità sociale.<br><br>
 
 <script>
 
-/* BOOT */
-window.onload=function(){
-document.getElementById("boot").play();
-document.getElementById("ambient").play();
-}
-
-/* FLASH */
-function fx(){
-let f=document.getElementById("flash");
-f.classList.add("active");
-setTimeout(()=>f.classList.remove("active"),300);
-}
-
-/* NAV */
+/* NAVIGATION */
 function next(n){
-fx();
 document.getElementById("s"+n).classList.add("hidden");
 document.getElementById("s"+(n+1)).classList.remove("hidden");
 }
-
-/* MATRIX */
-const canvas=document.getElementById("matrix");
-const ctx=canvas.getContext("2d");
-
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-const chars="01アイウエオカキクケコ";
-const font=14;
-const cols=canvas.width/font;
-const drops=Array(Math.floor(cols)).fill(1);
-
-function draw(){
-ctx.fillStyle="rgba(0,0,0,0.08)";
-ctx.fillRect(0,0,canvas.width,canvas.height);
-
-ctx.fillStyle="#00ff88";
-ctx.font=font+"px monospace";
-
-for(let i=0;i<drops.length;i++){
-let t=chars[Math.floor(Math.random()*chars.length)];
-ctx.fillText(t,i*font,drops[i]*font);
-
-if(drops[i]*font>canvas.height&&Math.random()>0.975)drops[i]=0;
-drops[i]++;
-}
-}
-
-setInterval(draw,30);
 
 /* COUNTDOWN */
 const target=new Date("2026-05-23T19:30:00");
