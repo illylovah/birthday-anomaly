@@ -21,7 +21,6 @@ html,body{
     height:100dvh;
     overflow:hidden;
     background:#000;
-    overscroll-behavior:none;
 }
 
 /* ================= MATRIX ================= */
@@ -33,7 +32,7 @@ canvas{
     z-index:0;
 }
 
-/* ================= DARK OVERLAY ================= */
+/* dark overlay */
 body::after{
     content:"";
     position:fixed;
@@ -62,34 +61,24 @@ body::after{
 .container{
     width:100%;
     max-width:900px;
-
     background: radial-gradient(
         circle at center,
-        rgba(0,0,0,0.80) 0%,
-        rgba(0,0,0,0.60) 45%,
-        rgba(0,0,0,0.30) 75%,
-        rgba(0,0,0,0) 100%
+        rgba(0,0,0,0.85) 0%,
+        rgba(0,0,0,0.60) 50%,
+        rgba(0,0,0,0.0) 100%
     );
-
     padding:30px;
     border-radius:12px;
 }
 
 /* ================= TEXT ================= */
-h1{
-    font-size:2.6rem;
-    margin-bottom:25px;
-}
-
-h2{
-    font-size:2.2rem;
+h1,h2{
     margin-bottom:25px;
 }
 
 p{
     font-size:1.1rem;
     line-height:2;
-    margin-bottom:25px;
 }
 
 /* ================= COLORS ================= */
@@ -97,38 +86,24 @@ p{
 .yellow{color:#ffd400;}
 .green{color:#00ff88;}
 
-/* ================= BUTTON ================= */
-button{
-    margin-top:25px;
-    padding:14px 24px;
-    border:1px solid currentColor;
-    background:transparent;
-    color:inherit;
-}
-
 /* ================= BLINK ================= */
 .blink{
-    animation: blinkStrong 0.9s infinite;
+    animation:blink 0.9s infinite;
 }
 
-@keyframes blinkStrong{
-    0%{opacity:1;filter:brightness(1.5);}
-    40%{opacity:0.15;filter:brightness(0.6);}
-    60%{opacity:1;filter:brightness(1.4);}
-    100%{opacity:0.2;filter:brightness(0.7);}
+@keyframes blink{
+    50%{opacity:0.2;}
 }
 
-/* ================= GREEN BOX ================= */
+/* ================= BOX ================= */
 .greenBox{
     border:2px solid #00ff88;
     padding:25px;
-    animation:glow 1s infinite;
+    animation:glow 1.2s infinite;
 }
 
 @keyframes glow{
-    50%{
-        box-shadow:0 0 25px #00ff88;
-    }
+    50%{box-shadow:0 0 25px #00ff88;}
 }
 
 #matrix{
@@ -206,12 +181,8 @@ Presenza consigliata dal sistema
 <p class="green">
 🎉 23 MAGGIO — 19:30 🎉<br><br>
 
-CASA DI ILARIA<br><br>
-
-COUNTDOWN:<br>
+CASA DI ILARIA
 </p>
-
-<div class="green" id="countdown"></div>
 
 </div>
 
@@ -229,8 +200,7 @@ RICHIESTA CONFERMA PRESENZA SU WHATSAPP
 </h2>
 
 <p class="green">
-Il sistema richiede conferma utente<br>
-tramite sondaggio WhatsApp ufficiale
+Il sistema rileva evento in preparazione
 </p>
 
 <button class="green" onclick="next(5)">PROSEGUI</button>
@@ -238,14 +208,17 @@ tramite sondaggio WhatsApp ufficiale
 </div>
 </div>
 
-<!-- ================= PAGE 6 FINAL ================= -->
+<!-- ================= FINAL PAGE (COUNTDOWN) ================= -->
 <div class="screen hidden" id="s6">
 <div class="container">
 
-<p class="yellow">
-Il sistema richiede conferma utente<br>
-tramite sondaggio WhatsApp ufficiale
+<h1 class="green blink">COUNTDOWN EVENTO</h1>
+
+<p class="green">
+Attivazione sistema in corso...
 </p>
+
+<h2 class="yellow" id="countdown"></h2>
 
 </div>
 </div>
@@ -266,7 +239,6 @@ const cols=canvas.width/font;
 const drops=Array(Math.floor(cols)).fill(1);
 
 function draw(){
-
 ctx.fillStyle="rgba(0,0,0,0.08)";
 ctx.fillRect(0,0,canvas.width,canvas.height);
 
@@ -282,7 +254,6 @@ drops[i]=0;
 }
 drops[i]++;
 }
-
 }
 
 setInterval(draw,30);
@@ -299,6 +270,11 @@ const target=new Date("2026-05-23T19:30:00");
 function update(){
 let now=new Date();
 let d=target-now;
+
+if(d<=0){
+document.getElementById("countdown").innerHTML="⚠ EVENTO IN CORSO ⚠";
+return;
+}
 
 let days=Math.floor(d/86400000);
 let h=Math.floor(d%86400000/3600000);
