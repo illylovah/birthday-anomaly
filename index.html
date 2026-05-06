@@ -7,7 +7,7 @@
 
 <style>
 
-/* ================= RESET MOBILE FIX ================= */
+/* ================= RESET ================= */
 *{
     margin:0;
     padding:0;
@@ -21,14 +21,10 @@ html,body{
     height:100dvh;
     overflow:hidden;
     background:#000;
-}
-
-/* elimina “white bounce” mobile */
-body{
     overscroll-behavior:none;
 }
 
-/* ================= MATRIX BACKGROUND ================= */
+/* ================= MATRIX ================= */
 canvas{
     position:fixed;
     inset:0;
@@ -37,7 +33,7 @@ canvas{
     z-index:0;
 }
 
-/* ================= SCREEN SYSTEM ================= */
+/* ================= SCREEN ================= */
 .screen{
     position:fixed;
     inset:0;
@@ -76,7 +72,7 @@ p{
     margin-bottom:25px;
 }
 
-/* ================= COLORS ONLY TEXT ================= */
+/* ================= COLORS ================= */
 .red{color:#ff2b2b;}
 .yellow{color:#ffd400;}
 .green{color:#00ff88;}
@@ -108,13 +104,27 @@ h1,h2,p{
     to{opacity:1; transform:translateY(0);}
 }
 
-/* blink warning */
+/* ================= BLINK ================= */
 .blink{
     animation:blink 0.7s infinite;
 }
 
 @keyframes blink{
     50%{opacity:0.2;}
+}
+
+/* ================= GREEN BOX (ACCESSO AUTORIZZATO) ================= */
+.greenBox{
+    border:2px solid #00ff88;
+    padding:25px;
+    animation:greenBlink 0.9s infinite;
+}
+
+@keyframes greenBlink{
+    50%{
+        box-shadow:0 0 25px #00ff88;
+        opacity:0.6;
+    }
 }
 
 </style>
@@ -160,11 +170,15 @@ Analisi sistema evento<br>
 <div class="screen hidden" id="s3">
 <div class="container">
 
+<div class="greenBox">
+
 <h1 class="green">ACCESSO AUTORIZZATO</h1>
 
 <p class="green">
 presenza consigliata dal sistema
 </p>
+
+</div>
 
 <button class="green" onclick="next(3)">PROSEGUI</button>
 
@@ -194,12 +208,10 @@ COUNTDOWN:<br>
 <div class="screen hidden" id="s5">
 <div class="container">
 
-<h2 class="yellow">CONFERMA PARTECIPAZIONE</h2>
+<h2 class="yellow">CONFERMA PRESENZA</h2>
 
 <p class="yellow">
-Segnala la tua presenza su WhatsApp<br><br>
-
-⚠ Il sistema richiede conferma tramite sondaggio WhatsApp ⚠
+è richiesta la conferma di presenza nel so faggio su whatsapp
 </p>
 
 </div>
