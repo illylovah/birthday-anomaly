@@ -93,14 +93,27 @@ button{
     z-index:0;
 }
 
-/* ================= BLINK TITLES ================= */
+/* ================= STRONG BLINK (FIX) ================= */
 .blink{
-    animation:blink 0.8s infinite;
+    animation: blinkStrong 0.9s infinite;
 }
 
-@keyframes blink{
-    50%{
-        opacity:0.25;
+@keyframes blinkStrong{
+    0%{
+        opacity:1;
+        filter:brightness(1.5);
+    }
+    40%{
+        opacity:0.15;
+        filter:brightness(0.6);
+    }
+    60%{
+        opacity:1;
+        filter:brightness(1.4);
+    }
+    100%{
+        opacity:0.2;
+        filter:brightness(0.7);
     }
 }
 
@@ -219,7 +232,7 @@ RICHIESTA CONFERMA PRESENZA SU WHATSAPP
 </h2>
 
 <p class="green fadeIn">
-Il sistema richiede conferma dell’utente<br>
+Il sistema richiede conferma utente<br>
 tramite sondaggio WhatsApp ufficiale
 </p>
 
