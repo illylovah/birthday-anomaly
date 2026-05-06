@@ -33,6 +33,15 @@ canvas{
     z-index:0;
 }
 
+/* ================= LEGIBILITY OVERLAY ================= */
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.55);
+    z-index:1;
+}
+
 /* ================= SCREEN ================= */
 .screen{
     position:fixed;
@@ -49,12 +58,11 @@ canvas{
 
 .hidden{display:none;}
 
-/* ================= CONTENUTO CON SFUMATURA ================= */
+/* ================= CONTAINER ================= */
 .container{
     width:100%;
     max-width:900px;
 
-    /* 🔥 SFUMATURA NERA PER LEGGIBILITÀ */
     background: radial-gradient(
         circle at center,
         rgba(0,0,0,0.80) 0%,
@@ -123,7 +131,6 @@ button{
     }
 }
 
-/* ================= MATRIX ================= */
 #matrix{
     position:fixed;
     inset:0;
@@ -188,9 +195,11 @@ Presenza consigliata dal sistema
 </div>
 </div>
 
-<!-- ================= PAGE 4 ================= -->
+<!-- ================= PAGE 4 (FIX BOX) ================= -->
 <div class="screen hidden" id="s4">
 <div class="container">
+
+<div class="greenBox">
 
 <h2 class="green blink">EVENTO RILEVATO</h2>
 
@@ -203,6 +212,8 @@ COUNTDOWN:<br>
 </p>
 
 <div class="green" id="countdown"></div>
+
+</div>
 
 <button class="green" onclick="next(4)">CONTINUA</button>
 
