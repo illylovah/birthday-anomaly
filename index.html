@@ -24,25 +24,6 @@ body{
     color:#00ff88;
 }
 
-canvas{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    z-index:0;
-}
-
-.background-glow{
-    position:absolute;
-    width:600px;
-    height:600px;
-    background:radial-gradient(circle, rgba(0,255,136,0.15), transparent 70%);
-    filter:blur(40px);
-    animation:pulse 6s infinite alternate;
-    z-index:1;
-}
-
 .container{
     position:relative;
     z-index:3;
@@ -51,20 +32,7 @@ canvas{
     padding:45px;
     border:1px solid rgba(0,255,136,0.5);
     background:rgba(0,0,0,0.65);
-    backdrop-filter: blur(10px);
-    box-shadow:0 0 40px rgba(0,255,136,0.2);
     text-align:center;
-    animation:flicker 4s infinite;
-}
-
-.glitch{
-    animation:glitch 1s infinite;
-}
-
-.warning{
-    margin-top:30px;
-    color:#ff004c;
-    animation:blink 1s infinite;
 }
 
 .screen{
@@ -80,35 +48,34 @@ canvas{
     padding:30px;
 }
 
-.screen p{
-    max-width:700px;
-    line-height:2;
-    color:#9effc9;
-}
-
-.screen button{
-    background:black;
-    color:#00ff88;
-    border:1px solid #00ff88;
-    padding:15px 30px;
-    cursor:pointer;
-}
-
 .hidden{
     display:none;
 }
 
+button{
+    margin-top:20px;
+    background:black;
+    color:#00ff88;
+    border:1px solid #00ff88;
+    padding:15px 25px;
+    cursor:pointer;
+}
+
+.glitch{
+    animation:glitch 1s infinite;
+}
+
 @keyframes glitch{
     0%{transform:translate(0);}
-    20%{transform:translate(-2px,2px);}
-    40%{transform:translate(2px,-2px);}
-    60%{transform:translate(-2px,-2px);}
-    80%{transform:translate(2px,2px);}
+    25%{transform:translate(-2px,2px);}
+    50%{transform:translate(2px,-2px);}
+    75%{transform:translate(-2px,-2px);}
     100%{transform:translate(0);}
 }
 
-@keyframes blink{
-    50%{opacity:0;}
+.warning{
+    margin-top:20px;
+    color:#ff004c;
 }
 
 </style>
@@ -116,62 +83,97 @@ canvas{
 
 <body>
 
-<!-- SCREEN 1 -->
+<!-- 1 -->
 <div class="screen" id="screen1">
     <h2>ATTENZIONE</h2>
-    <p>Stai entrando in un evento ad alto caos sociale.</p>
-    <button onclick="nextScreen()">CONTINUA</button>
-</div>
-
-<!-- SCREEN 2 -->
-<div class="screen hidden" id="screen2">
-    <h2 class="glitch">SCANSIONE...</h2>
-    <p>Accesso in preparazione.</p>
-    <button onclick="startExperience()">ENTRA</button>
-</div>
-
-<!-- FINAL SCREEN (CORRETTO) -->
-<div class="screen hidden" id="finalScreen">
-
-    <h2 class="glitch">TRASMISSIONE COMPLETATA</h2>
 
     <p>
-        Grazie per aver completato il protocollo.<br><br>
-        La vostra presenza aumenterà il caos della serata.<br><br>
-        Si consiglia conferma via WhatsApp.
+        Stai tentando di accedere a un evento classificato ad alto rischio sociale.<br><br>
+
+        Procedendo accetti la possibilità di:<br>
+        - urlare canzoni alle 2 di notte<br>
+        - perdere completamente il senso del tempo<br>
+        - ritrovarti in 437 foto che non ricordavi esistessero<br>
+        - prendere decisioni discutibili ma iconiche
     </p>
 
+    <button onclick="nextScreen()">CONTINUA COMUNQUE</button>
 </div>
 
-<!-- MAIN -->
-<div class="container">
+<!-- 2 -->
+<div class="screen hidden" id="screen2">
+    <h2 class="glitch">SCANSIONE IN CORSO...</h2>
 
-    <h1 class="glitch">ACCESSO AUTORIZZATO</h1>
+    <p>
+        Verifica requisiti minimi:<br><br>
+
+        ✔ capacità di festeggiare<br>
+        ✔ resistenza psicologica al karaoke<br>
+        ✔ tolleranza al caos<br>
+        ✔ energia sufficiente per sopravvivere alla serata<br><br>
+
+        Accesso quasi autorizzato.
+    </p>
+
+    <button onclick="screen3()">ENTRA NEL PROTOCOLLO</button>
+</div>
+
+<!-- 3 -->
+<div class="screen hidden" id="screen3">
+
+    <h2>ACCESSO AUTORIZZATO</h2>
 
     <div class="warning">
         ⚠ PRESENZA FORTEMENTE CONSIGLIATA ⚠
     </div>
 
-    <!-- BOTTONE FINALE -->
-    <br>
-    <button onclick="openFinalScreen()" style="
-        margin-top:20px;
-        background:black;
-        color:#00ff88;
-        border:1px solid #00ff88;
-        padding:15px 25px;
-        cursor:pointer;
-        font-family:monospace;
-    ">
-        TERMINA ACCESSO
-    </button>
-
+    <button onclick="screen4()">PROSEGUI</button>
 </div>
 
-<!-- AUDIO (UNO SOLO!) -->
-<audio id="bgAudio" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8a4a00c64.mp3?filename=dark-ambient-11157.mp3">
-</audio>
+<!-- 4 -->
+<div class="screen hidden" id="screen4">
+
+    <h2>ACCESSO AUTORIZZATO</h2>
+
+    <p>
+        È stato rilevato un raro fenomeno cosmico.<br><br>
+
+        Dopo attente analisi, gli esperti confermano che il soggetto in questione sopravviverà per un altro anno terrestre.<br><br>
+
+        █ DATA DELL'EVENTO █<br><br>
+
+        23 MAGGIO — 19:30<br><br>
+
+        Località: a casa di Ilaria<br><br>
+
+        Dress code: mentalmente instabili ma eleganti.<br><br>
+
+        Possibili effetti collaterali:<br>
+        - perdita della dignità<br>
+        - foto discutibili<br>
+        - karaoke non autorizzato<br>
+        - ricordi incompleti<br><br>
+
+        INIZIO ANOMALIA TRA: 17g 6h 15m 42s
+    </p>
+
+    <button onclick="screen5()">CONTINUA</button>
+</div>
+
+<!-- 5 -->
+<div class="screen hidden" id="screen5">
+
+    <h2 class="glitch">TRASMISSIONE COMPLETATA</h2>
+
+    <p>
+        Grazie per aver completato il protocollo.<br><br>
+
+        La vostra presenza aumenterà il caos della serata.<br><br>
+
+        Si consiglia conferma via WhatsApp.
+    </p>
+
+</div>
 
 <script>
 
@@ -180,13 +182,19 @@ function nextScreen(){
     document.getElementById("screen2").classList.remove("hidden");
 }
 
-function startExperience(){
+function screen3(){
     document.getElementById("screen2").classList.add("hidden");
-    document.getElementById("bgAudio").play();
+    document.getElementById("screen3").classList.remove("hidden");
 }
 
-function openFinalScreen(){
-    document.getElementById("finalScreen").classList.remove("hidden");
+function screen4(){
+    document.getElementById("screen3").classList.add("hidden");
+    document.getElementById("screen4").classList.remove("hidden");
+}
+
+function screen5(){
+    document.getElementById("screen4").classList.add("hidden");
+    document.getElementById("screen5").classList.remove("hidden");
 }
 
 </script>
