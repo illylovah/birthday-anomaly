@@ -7,7 +7,7 @@
 
 <style>
 
-/* ================= RESET FULL SCREEN ================= */
+/* ================= RESET ================= */
 *{
     margin:0;
     padding:0;
@@ -45,9 +45,29 @@ html,body{
 }
 
 /* ================= TYPO ================= */
-h1{font-size:2.6rem;}
-h2{font-size:2.2rem;}
-p{font-size:1.15rem; line-height:1.7;}
+h1{
+    font-size:2.6rem;
+    white-space:nowrap; /* FORZA UNA RIGA */
+}
+
+h2{
+    font-size:2.2rem;
+    white-space:nowrap; /* FORZA UNA RIGA */
+}
+
+p{
+    font-size:1.1rem;
+    line-height:1.7;
+}
+
+/* ================= BLINK ================= */
+.blink{
+    animation:blink 0.6s infinite;
+}
+
+@keyframes blink{
+    50%{opacity:0.2;}
+}
 
 /* ================= BUTTON ================= */
 button{
@@ -58,78 +78,20 @@ button{
     color:inherit;
 }
 
-/* ================= PAGE 1 RED SIREN ================= */
-#s1{
-    background:linear-gradient(45deg,#5a0000,#ff1a1a,#7a0000);
-    color:white;
-    position:relative;
-    overflow:hidden;
-}
+/* ================= PAGES ================= */
+#s1{background:#8b0000;color:white;}
+#s2{background:#ffd400;color:black;}
+#s3{background:black;color:#00ff88;}
+#s4{background:black;color:#00ff88;}
+#s5{background:black;color:#00ff88;}
 
-#s1 h1{
-    animation:blink 0.7s infinite;
-}
-
-@keyframes blink{
-    50%{opacity:0.2;}
-}
-
-/* sirena overlay */
-.siren{
-    position:absolute;
-    inset:0;
-    background:radial-gradient(circle,
-        rgba(255,0,0,0.8),
-        rgba(255,80,80,0.2),
-        transparent 70%);
-    animation:sirenMove 1s infinite alternate;
-    z-index:0;
-}
-
-@keyframes sirenMove{
-    from{transform:scale(1); opacity:0.5;}
-    to{transform:scale(1.3); opacity:1;}
-}
-
-/* ================= PAGE 2 YELLOW ================= */
-#s2{
-    background:#ffd400;
-    color:black;
-}
-
-/* ================= PAGE 3 MATRIX GREEN ================= */
-#s3{
-    background:black;
-    color:#00ff88;
-}
-
-/* ================= PAGE 4 MATRIX GREEN ================= */
-#s4{
-    background:black;
-    color:#00ff88;
-}
-
-/* BOX EVENT */
-.eventBox{
-    border:2px solid #00ff88;
-    padding:25px;
-    font-size:1.3rem;
-}
-
-/* ================= PAGE 5 ================= */
-#s5{
-    background:black;
-    color:#00ff88;
-}
-
-/* ================= MATRIX CANVAS ================= */
+/* ================= MATRIX ================= */
 canvas{
     position:fixed;
     inset:0;
     z-index:0;
 }
 
-/* overlay glow */
 .overlay{
     position:fixed;
     inset:0;
@@ -137,18 +99,49 @@ canvas{
     background:radial-gradient(circle,
         rgba(0,255,136,0.12),
         transparent 60%);
-    pointer-events:none;
 }
 
-/* ================= ANIM TEXT ================= */
-h1,h2,p{
-    animation:fadeIn 0.8s ease forwards;
-    opacity:0;
-    transform:translateY(10px);
+/* ================= PAGE 1 SIREN ================= */
+#s1::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle,
+        rgba(255,0,0,0.9),
+        rgba(255,80,80,0.2),
+        transparent 70%);
+    animation:siren 1s infinite alternate;
+    z-index:0;
 }
 
-@keyframes fadeIn{
-    to{opacity:1; transform:translateY(0);}
+@keyframes siren{
+    from{transform:scale(1);opacity:0.4;}
+    to{transform:scale(1.3);opacity:1;}
+}
+
+/* ================= PAGE 3 MATRIX BACKGROUND STRONG ================= */
+.matrix-bg{
+    position:absolute;
+    inset:0;
+    z-index:0;
+}
+
+/* ================= CONTENT FRONT ================= */
+.container{
+    position:relative;
+    z-index:2;
+}
+
+/* ================= EVENT BOX ================= */
+.box{
+    border:2px solid #00ff88;
+    padding:20px;
+    font-size:1.2rem;
+}
+
+/* ================= FINAL PAGE ================= */
+#s5 p{
+    font-size:1.2rem;
 }
 
 </style>
@@ -156,21 +149,19 @@ h1,h2,p{
 
 <body>
 
-<!-- MATRIX -->
 <canvas id="matrix"></canvas>
 <div class="overlay"></div>
 
 <!-- ================= PAGE 1 ================= -->
 <div class="screen" id="s1">
-<div class="siren"></div>
 
 <div class="container">
 
 <h1>⚠ ALLARME SISTEMA ⚠</h1>
 
 <p>
-ACCESSO NON AUTORIZZATO<br><br>
-EVENTO: COMPLEANNO RILEVATO
+ACCESSO NON AUTORIZZATO<br>
+EVENTO COMPLEANNO RILEVATO
 </p>
 
 <button onclick="next(1)">CONTINUA</button>
@@ -180,13 +171,14 @@ EVENTO: COMPLEANNO RILEVATO
 
 <!-- ================= PAGE 2 ================= -->
 <div class="screen hidden" id="s2">
+
 <div class="container">
 
-<h2>SCANSIONE IN CORSO...</h2>
+<h2 class="blink">SCANSIONE IN CORSO</h2>
 
 <p>
-Analisi sistema evento<br><br>
-⚠ livello festa: massimo ⚠
+Analisi sistema evento<br>
+⚠ livello festa massimo ⚠
 </p>
 
 <button onclick="next(2)">ENTRA</button>
@@ -196,6 +188,7 @@ Analisi sistema evento<br><br>
 
 <!-- ================= PAGE 3 ================= -->
 <div class="screen hidden" id="s3">
+
 <div class="container">
 
 <h1>ACCESSO AUTORIZZATO</h1>
@@ -209,17 +202,16 @@ Analisi sistema evento<br><br>
 
 <!-- ================= PAGE 4 ================= -->
 <div class="screen hidden" id="s4">
+
 <div class="container">
 
 <h2>EVENTO RILEVATO</h2>
 
-<div class="eventBox">
+<div class="box">
 
 🎉 23 MAGGIO — 19:30 🎉<br><br>
 
 CASA DI ILARIA<br><br>
-
-STATUS: COMPLEANNO ATTIVO<br><br>
 
 COUNTDOWN:<br>
 <div id="countdown"></div>
@@ -231,16 +223,15 @@ COUNTDOWN:<br>
 
 <!-- ================= PAGE 5 ================= -->
 <div class="screen hidden" id="s5">
+
 <div class="container">
 
 <h2>⚠ CONFERMA RICHIESTA ⚠</h2>
 
 <p>
-Per completare il protocollo è obbligatorio<br><br>
+Segnala la tua presenza su WhatsApp<br><br>
 
-✔ confermare presenza tramite sondaggio WhatsApp<br><br>
-
-Il sistema attende risposta dell’utente.
+Il sistema richiede conferma per validare l’accesso evento.
 </p>
 
 </div>
