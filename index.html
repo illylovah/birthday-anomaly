@@ -2,12 +2,12 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Protocollo Evento</title>
 
 <style>
 
-/* ================= BASE ================= */
+/* ================= RESET MOBILE FULL SCREEN ================= */
 *{
     margin:0;
     padding:0;
@@ -15,66 +15,59 @@
     font-family: monospace;
 }
 
-body{
+html,body{
+    width:100%;
+    height:100%;
     overflow:hidden;
 }
 
-/* ================= SCREENS ================= */
+/* FIX MOBILE FULL HEIGHT */
 .screen{
     position:fixed;
-    inset:0;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    height:100dvh; /* FIX mobile moderno */
     display:flex;
     justify-content:center;
     align-items:center;
     text-align:center;
-    padding:20px;
     z-index:10;
+    padding:20px;
 }
 
 .hidden{display:none;}
 
 .container{
-    width:90%;
-    max-width:850px;
+    width:100%;
+    max-width:900px;
+    padding:20px;
 }
 
-/* ================= TEXT ANIMATION ENTRY ================= */
-h1,h2,p{
-    opacity:0;
-    transform:translateY(15px);
-    animation:appear 0.8s forwards;
+/* ================= PAGE COLORS ================= */
+#s1{background:#8b0000;color:white;}
+#s2{background:#ffd400;color:black;}
+#s3{background:black;color:#00ff88;}
+#s4{background:black;color:#00ff88;}
+#s5{background:black;color:#00ff88;}
+
+/* ================= TYPO ================= */
+h1{font-size:2.4rem;}
+h2{font-size:2rem;}
+p{font-size:1.05rem; line-height:1.7;}
+
+/* ================= BUTTON ================= */
+button{
+    margin-top:20px;
+    padding:14px 24px;
+    border:1px solid currentColor;
+    background:transparent;
+    color:inherit;
 }
 
-@keyframes appear{
-    to{opacity:1; transform:translateY(0);}
-}
-
-/* ================= PAGE 1 RED ================= */
-#s1{
-    background:#8b0000;
-    color:#fff;
-    position:relative;
-    overflow:hidden;
-}
-
-.redPulse{
-    position:absolute;
-    inset:0;
-    background:radial-gradient(circle at center,
-        rgba(255,0,0,0.7),
-        transparent 60%);
-    animation:siren 1.2s infinite alternate;
-    z-index:0;
-}
-
-@keyframes siren{
-    from{opacity:0.3; transform:scale(1);}
-    to{opacity:1; transform:scale(1.2);}
-}
-
-#s1 .container{position:relative; z-index:2;}
-
-.blinkRed{
+/* ================= BLINK ================= */
+.blink{
     animation:blink 0.8s infinite;
 }
 
@@ -82,52 +75,22 @@ h1,h2,p{
     50%{opacity:0.2;}
 }
 
-/* ================= PAGE 2 YELLOW ================= */
-#s2{
-    background:#ffd400 !important;
-    color:black !important;
-    position:relative;
-}
-
-.blinkYellow{
-    animation:blink 0.6s infinite;
-}
-
-#s2 h2{
-    animation:blink 0.6s infinite;
-}
-
-/* ================= PAGE 3 GREEN MATRIX ================= */
-#s3{
-    background:black;
-    color:#00ff88;
-    position:relative;
-}
-
-/* ================= PAGE 4 MATRIX ================= */
-#s4{
-    background:black;
-    color:#00ff88;
-}
-
-/* ================= PAGE 5 MATRIX ================= */
-#s5{
-    background:black;
-    color:#00ff88;
-}
-
 /* ================= MATRIX CANVAS ================= */
 canvas{
     position:fixed;
-    inset:0;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
     z-index:0;
 }
 
+/* LIGHT OVERLAY */
 .overlay{
     position:fixed;
     inset:0;
     z-index:1;
-    background: radial-gradient(circle,
+    background:radial-gradient(circle,
         rgba(0,255,136,0.12),
         transparent 60%);
     pointer-events:none;
@@ -139,43 +102,53 @@ canvas{
     to{opacity:1;}
 }
 
-/* ================= BUTTON ================= */
-button{
-    margin-top:20px;
-    padding:14px 24px;
-    border:1px solid currentColor;
-    background:transparent;
-    color:inherit;
-    cursor:pointer;
+/* ================= PAGE 1 RED SIREN ================= */
+#s1::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle,
+        rgba(255,0,0,0.7),
+        transparent 60%);
+    animation:siren 1s infinite alternate;
+    z-index:0;
 }
 
-/* ================= TYPO ================= */
-h1{font-size:2.6rem;}
-h2{font-size:2rem;}
-p{font-size:1.05rem; line-height:1.7;}
+@keyframes siren{
+    from{opacity:0.3; transform:scale(1);}
+    to{opacity:1; transform:scale(1.2);}
+}
+
+/* ================= CENTER CONTENT ================= */
+.container{
+    position:relative;
+    z-index:2;
+}
+
+/* ================= PAGE 2 FLASH ================= */
+#s2 h2{
+    animation:blink 0.6s infinite;
+}
 
 </style>
 </head>
 
 <body>
 
-<!-- MATRIX GLOBAL BACKGROUND -->
+<!-- MATRIX -->
 <canvas id="matrix"></canvas>
 <div class="overlay"></div>
 
-<!-- ================= PAGE 1 RED ================= -->
+<!-- ================= PAGE 1 ================= -->
 <div class="screen" id="s1">
-<div class="redPulse"></div>
 <div class="container">
 
-<h1 class="blinkRed">⚠ ALLARME SISTEMA ⚠</h1>
+<h1>⚠ ALLARME SISTEMA ⚠</h1>
 
 <p>
 ACCESSO NON AUTORIZZATO RILEVATO<br><br>
 
-Evento identificato: COMPLEANNO 23 MAGGIO<br><br>
-
-Sistema in modalità emergenza.
+Evento: COMPLEANNO IN ARRIVO
 </p>
 
 <button onclick="next(1)">CONTINUA</button>
@@ -183,17 +156,14 @@ Sistema in modalità emergenza.
 </div>
 </div>
 
-<!-- ================= PAGE 2 YELLOW ================= -->
+<!-- ================= PAGE 2 ================= -->
 <div class="screen hidden" id="s2">
 <div class="container">
 
-<h2 class="blinkYellow">SCANSIONE IN CORSO...</h2>
+<h2>SCANSIONE IN CORSO...</h2>
 
 <p>
-Analisi sistema in esecuzione...<br><br>
-
-⚠ RISCHIO DIVERTIMENTO: MASSIMO ⚠<br>
-⚠ STATO: ALLERTA FESTA ⚠
+⚠ RISCHIO DIVERTIMENTO: MASSIMO ⚠
 </p>
 
 <button onclick="next(2)">ENTRA</button>
@@ -205,12 +175,10 @@ Analisi sistema in esecuzione...<br><br>
 <div class="screen hidden" id="s3">
 <div class="container">
 
-<h1 style="font-size:3rem;">
-ACCESSO AUTORIZZATO
-</h1>
+<h1>ACCESSO AUTORIZZATO</h1>
 
-<p>
-utente classificato: invito alla serata
+<p class="blink">
+presenza consigliata dal sistema
 </p>
 
 <button onclick="next(3)">PROSEGUI</button>
@@ -224,12 +192,10 @@ utente classificato: invito alla serata
 
 <h2>EVENTO RILEVATO</h2>
 
-<p style="font-size:1.2rem;">
+<p>
 🎉 23 MAGGIO — 19:30 🎉<br><br>
 
 CASA DI ILARIA<br><br>
-
-STATUS: COMPLEANNO ATTIVO<br><br>
 
 COUNTDOWN:<br>
 <div id="countdown"></div>
