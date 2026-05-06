@@ -24,22 +24,13 @@ html,body{
     overscroll-behavior:none;
 }
 
-/* ================= MATRIX BACKGROUND (GLOBAL FIX) ================= */
+/* ================= MATRIX ================= */
 canvas{
     position:fixed;
     inset:0;
     width:100%;
     height:100%;
     z-index:0;
-}
-
-/* overlay per rendere leggibili i testi */
-body::after{
-    content:"";
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.55);
-    z-index:1;
 }
 
 /* ================= SCREEN ================= */
@@ -58,9 +49,22 @@ body::after{
 
 .hidden{display:none;}
 
+/* ================= CONTENUTO CON SFUMATURA ================= */
 .container{
     width:100%;
     max-width:900px;
+
+    /* 🔥 SFUMATURA NERA PER LEGGIBILITÀ */
+    background: radial-gradient(
+        circle at center,
+        rgba(0,0,0,0.80) 0%,
+        rgba(0,0,0,0.60) 45%,
+        rgba(0,0,0,0.30) 75%,
+        rgba(0,0,0,0) 100%
+    );
+
+    padding:30px;
+    border-radius:12px;
 }
 
 /* ================= TEXT ================= */
@@ -119,18 +123,11 @@ button{
     }
 }
 
-/* ================= FADE ================= */
-.fadeIn{
-    animation:fadeIn 0.7s ease forwards;
-    opacity:0;
-    transform:translateY(10px);
-}
-
-@keyframes fadeIn{
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+/* ================= MATRIX ================= */
+#matrix{
+    position:fixed;
+    inset:0;
+    z-index:0;
 }
 
 </style>
@@ -144,9 +141,9 @@ button{
 <div class="screen" id="s1">
 <div class="container">
 
-<h1 class="red blink fadeIn">ALLARME SISTEMA</h1>
+<h1 class="red blink">ALLARME SISTEMA</h1>
 
-<p class="red fadeIn">
+<p class="red">
 ACCESSO NON AUTORIZZATO<br>
 EVENTO COMPLEANNO RILEVATO
 </p>
@@ -160,9 +157,9 @@ EVENTO COMPLEANNO RILEVATO
 <div class="screen hidden" id="s2">
 <div class="container">
 
-<h2 class="yellow blink fadeIn">SCANSIONE IN CORSO</h2>
+<h2 class="yellow blink">SCANSIONE IN CORSO</h2>
 
-<p class="yellow fadeIn">
+<p class="yellow">
 Analisi sistema evento<br>
 ⚠ livello festa massimo ⚠
 </p>
@@ -178,9 +175,9 @@ Analisi sistema evento<br>
 
 <div class="greenBox">
 
-<h1 class="green blink fadeIn">ACCESSO AUTORIZZATO</h1>
+<h1 class="green blink">ACCESSO AUTORIZZATO</h1>
 
-<p class="green fadeIn">
+<p class="green">
 Presenza consigliata dal sistema
 </p>
 
@@ -195,9 +192,9 @@ Presenza consigliata dal sistema
 <div class="screen hidden" id="s4">
 <div class="container">
 
-<h2 class="green blink fadeIn">EVENTO RILEVATO</h2>
+<h2 class="green blink">EVENTO RILEVATO</h2>
 
-<p class="green fadeIn">
+<p class="green">
 🎉 23 MAGGIO — 19:30 🎉<br><br>
 
 CASA DI ILARIA<br><br>
@@ -216,11 +213,11 @@ COUNTDOWN:<br>
 <div class="screen hidden" id="s5">
 <div class="container">
 
-<h2 class="yellow blink fadeIn">
+<h2 class="yellow blink">
 RICHIESTA CONFERMA PRESENZA SU WHATSAPP
 </h2>
 
-<p class="green fadeIn">
+<p class="green">
 Il sistema richiede conferma utente<br>
 tramite sondaggio WhatsApp ufficiale
 </p>
@@ -234,7 +231,7 @@ tramite sondaggio WhatsApp ufficiale
 <div class="screen hidden" id="s6">
 <div class="container">
 
-<p class="yellow fadeIn">
+<p class="yellow">
 È richiesta la conferma di presenza nel sondaggio WhatsApp ufficiale
 </p>
 
