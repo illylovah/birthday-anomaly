@@ -20,7 +20,7 @@ body{
     color:#00ff88;
 }
 
-/* MATRIX BACKGROUND */
+/* MATRIX */
 canvas{
     position:fixed;
     top:0;
@@ -33,9 +33,10 @@ canvas{
 .overlay{
     position:fixed;
     inset:0;
-    background:radial-gradient(circle, rgba(0,255,136,0.08), transparent 60%);
+    background: radial-gradient(circle, rgba(0,255,136,0.10), transparent 60%);
     z-index:1;
     animation:pulse 5s infinite alternate;
+    pointer-events:none;
 }
 
 @keyframes pulse{
@@ -62,20 +63,14 @@ canvas{
     max-width:900px;
     padding:40px;
     border:1px solid rgba(0,255,136,0.4);
-    background:rgba(0,0,0,0.75);
+    background:rgba(0,0,0,0.78);
 }
 
-/* TEXT */
+/* TYPO */
 h1{font-size:3rem;}
 h2{font-size:2rem;}
+p{font-size:1.1rem; line-height:1.8; color:#9effc9;}
 
-p{
-    font-size:1.1rem;
-    line-height:1.8;
-    color:#9effc9;
-}
-
-/* BUTTON */
 button{
     margin-top:20px;
     padding:14px 24px;
@@ -98,21 +93,22 @@ button{
     100%{transform:translate(0);}
 }
 
-/* SHAKE EFFECT */
-.shake{
-    animation:shake 0.3s;
+/* EVENT SCREEN BIG */
+.eventBox{
+    font-size:1.2rem;
+    border:1px solid #00ff88;
+    padding:30px;
+    margin-top:20px;
 }
 
-@keyframes shake{
-    0%{transform:translate(0);}
-    25%{transform:translate(-5px,5px);}
-    50%{transform:translate(5px,-5px);}
-    75%{transform:translate(-5px,-5px);}
-    100%{transform:translate(0);}
+.bigEvent{
+    font-size:2.2rem;
+    color:white;
+    text-shadow:0 0 10px #00ff88;
 }
 
-/* FULL SCREEN GLITCH */
-.glitchFlash{
+/* FLASH GLITCH */
+.flash{
     position:fixed;
     inset:0;
     background:white;
@@ -121,8 +117,8 @@ button{
     pointer-events:none;
 }
 
-.glitchFlash.active{
-    animation:flash 0.4s;
+.flash.active{
+    animation:flash .3s;
 }
 
 @keyframes flash{
@@ -131,113 +127,157 @@ button{
     100%{opacity:0;}
 }
 
-/* SHUTDOWN */
-.shutdown{
-    position:fixed;
-    inset:0;
-    background:black;
-    z-index:999;
-    display:none;
-    justify-content:center;
-    align-items:center;
-    color:red;
-    font-size:2rem;
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- MATRIX -->
 <canvas id="matrix"></canvas>
 <div class="overlay"></div>
+<div class="flash" id="flash"></div>
 
-<!-- GLITCH FLASH -->
-<div class="glitchFlash" id="flash"></div>
+<!-- AUDIO -->
+<audio id="boot" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8a4a00c64.mp3"></audio>
+<audio id="click" src="https://cdn.pixabay.com/download/audio/2022/03/16/audio_0f7b7c8b0f.mp3"></audio>
+<audio id="ambient" loop src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_3a5b7a5d14.mp3"></audio>
 
-<!-- SHUTDOWN SCREEN -->
-<div class="shutdown" id="shutdown">
-SYSTEM SHUTDOWN...
-</div>
-
-<!-- ================= SCREEN 1 ================= -->
+<!-- SCREEN 1 -->
 <div class="screen" id="s1">
 <div class="container">
 
 <h1>ATTENZIONE</h1>
 
-<p>Accesso a sistema classificato.</p>
+<p>
+ACCESSO NON AUTORIZZATO RILEVATO.<br><br>
 
-<button onclick="bootNext(1)">CONTINUA</button>
+“SISTEMA FESTA 23.05” IDENTIFICATO NELLA RETE.<br><br>
+
+Questo evento potrebbe contenere:
+- caos controllato
+- felicità improvvisa
+- perdita di memoria selettiva
+</p>
+
+<button onclick="next(1)">CONTINUA</button>
 
 </div>
 </div>
 
-<!-- ================= SCREEN 2 ================= -->
+<!-- SCREEN 2 -->
 <div class="screen hidden" id="s2">
 <div class="container">
 
 <h2 class="glitch">SCANSIONE IN CORSO...</h2>
 
-<p>Verifica parametri completata.</p>
+<p>
+Sistema: analisi identità in corso...<br>
+Risultato: compatibile con eventi fuori controllo.<br><br>
 
-<button onclick="bootNext(2)">ENTRA</button>
+“livello divertimento previsto: ALTO”
+</p>
+
+<button onclick="next(2)">ENTRA</button>
 
 </div>
 </div>
 
-<!-- ================= SCREEN 3 ================= -->
+<!-- SCREEN 3 -->
 <div class="screen hidden" id="s3">
 <div class="container">
 
 <h2>ACCESSO AUTORIZZATO</h2>
 
-<p>⚠ PRESENZA CONSIGLIATA ⚠</p>
+<p>
+⚠ sistema segnala evento personale in arrivo ⚠<br><br>
 
-<button onclick="bootNext(3)">PROSEGUI</button>
+“utente classificato come: protagonista della serata”
+</p>
+
+<button onclick="next(3)">PROSEGUI</button>
 
 </div>
 </div>
 
-<!-- ================= SCREEN 4 ================= -->
+<!-- SCREEN 4 BIG EVENT -->
 <div class="screen hidden" id="s4">
 <div class="container">
 
-<h2>EVENTO</h2>
+<h2 class="glitch">EVENTO RILEVATO</h2>
 
-<p>
-23 MAGGIO — 19:30<br><br>
+<div class="eventBox">
 
-INIZIO ANOMALIA TRA:<br>
-<span id="countdown"></span>
-</p>
+<div class="bigEvent">
+🎉 23 MAGGIO — 19:30 🎉
+</div>
 
-<button onclick="bootNext(4)">CONTINUA</button>
+<br>
+
+LOCALITÀ: CASA DI ILARIA<br><br>
+
+STATUS: COMPLEANNO IN ARRIVO<br><br>
+
+FRASI SISTEMA:
+- “utente sta per iniziare una serata non recuperabile”
+- “memoria consigliata: OFF”
+- “livello festa: massimo consentito”
+
+<br><br>
+
+COUNTDOWN:
+<div id="countdown"></div>
+
+</div>
+
+<button onclick="next(4)">CONTINUA</button>
 
 </div>
 </div>
 
-<!-- ================= SCREEN 5 ================= -->
+<!-- SCREEN 5 -->
 <div class="screen hidden" id="s5">
 <div class="container">
 
 <h1 class="glitch">TRASMISSIONE COMPLETATA</h1>
 
-<p>La vostra presenza aumenterà il caos della serata.</p>
+<p>
+SISTEMA CONFERMATO:<br><br>
+
+Il 23 maggio non sarà un evento normale.<br>
+Sarà un backup della realtà con bug di divertimento.<br><br>
+
+“ACCESSO ALLA FESTA APPROVATO”
+</p>
 
 </div>
 </div>
-
-<!-- AUDIO -->
-<audio id="bootSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8a4a00c64.mp3"></audio>
-<audio id="ambient" loop src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_3a5b7a5d14.mp3"></audio>
 
 <script>
+
+/* AUDIO SYSTEM */
+window.onload = () => {
+document.getElementById("boot").play();
+document.getElementById("ambient").play();
+}
+
+/* CLICK SOUND + FLASH */
+function fx(){
+document.getElementById("click").play();
+let f=document.getElementById("flash");
+f.classList.add("active");
+setTimeout(()=>f.classList.remove("active"),300);
+}
+
+/* NAVIGATION */
+function next(n){
+fx();
+document.getElementById("s"+n).classList.add("hidden");
+document.getElementById("s"+(n+1)).classList.remove("hidden");
+}
 
 /* MATRIX */
 const canvas=document.getElementById("matrix");
 const ctx=canvas.getContext("2d");
+
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
@@ -254,44 +294,15 @@ ctx.fillStyle="#00ff88";
 ctx.font=font+"px monospace";
 
 for(let i=0;i<drops.length;i++){
-let text=chars[Math.floor(Math.random()*chars.length)];
-ctx.fillText(text,i*font,drops[i]*font);
+let t=chars[Math.floor(Math.random()*chars.length)];
+ctx.fillText(t,i*font,drops[i]*font);
 
 if(drops[i]*font>canvas.height&&Math.random()>0.975)drops[i]=0;
 drops[i]++;
 }
 }
+
 setInterval(draw,30);
-
-/* BOOT AUDIO */
-window.onload=function(){
-document.getElementById("bootSound").play();
-document.getElementById("ambient").play();
-}
-
-/* GLITCH FLASH */
-function flash(){
-let f=document.getElementById("flash");
-f.classList.add("active");
-setTimeout(()=>f.classList.remove("active"),400);
-}
-
-/* SHAKE */
-function shake(){
-document.body.classList.add("shake");
-setTimeout(()=>document.body.classList.remove("shake"),300);
-}
-
-/* NAVIGATION */
-function bootNext(n){
-flash();
-shake();
-
-setTimeout(()=>{
-document.getElementById("s"+n).classList.add("hidden");
-document.getElementById("s"+(n+1)).classList.remove("hidden");
-},200);
-}
 
 /* COUNTDOWN */
 const target=new Date("2026-05-23T19:30:00");
@@ -308,13 +319,9 @@ let s=Math.floor(d%60000/1000);
 document.getElementById("countdown").innerHTML=
 `${days}g ${h}h ${m}m ${s}s`;
 }
-setInterval(update,1000);
 
-/* FINAL SHUTDOWN (optional trigger) */
-function shutdown(){
-document.getElementById("shutdown").style.display="flex";
-setTimeout(()=>location.reload(),3000);
-}
+setInterval(update,1000);
+update();
 
 </script>
 
