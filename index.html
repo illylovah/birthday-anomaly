@@ -21,7 +21,7 @@ html,body{
     overflow:hidden;
 }
 
-/* ================= MATRIX ================= */
+/* ================= MATRIX BACKGROUND ================= */
 canvas{
     position:fixed;
     inset:0;
@@ -30,7 +30,7 @@ canvas{
     z-index:0;
 }
 
-/* ================= SCREEN ================= */
+/* ================= SCREEN SYSTEM ================= */
 .screen{
     position:fixed;
     inset:0;
@@ -49,9 +49,10 @@ canvas{
 .container{
     width:100%;
     max-width:900px;
+    position:relative;
 }
 
-/* ================= TEXT SPACING FIX ================= */
+/* ================= TEXT SPACING ================= */
 h1{
     font-size:2.6rem;
     margin-bottom:25px;
@@ -66,7 +67,7 @@ h2{
 
 p{
     font-size:1.1rem;
-    line-height:2;   /* 🔥 PIÙ SPAZIO TRA RIGHE */
+    line-height:2;
     margin-bottom:25px;
 }
 
@@ -79,19 +80,14 @@ button{
     color:inherit;
 }
 
-/* ================= PAGES ================= */
+/* ================= PAGES COLORS ================= */
 #s1{
     background:linear-gradient(45deg,#4b0000,#ff0000,#7a0000);
     color:white;
-    position:relative;
 }
 
 #s1 h1{
     animation:blink 0.7s infinite;
-}
-
-@keyframes blink{
-    50%{opacity:0.2;}
 }
 
 #s2{
@@ -108,7 +104,12 @@ button{
     color:#00ff88;
 }
 
-/* ================= BOX ================= */
+/* ================= BLINK ================= */
+@keyframes blink{
+    50%{opacity:0.2;}
+}
+
+/* ================= EVENT BOX ================= */
 .box{
     border:2px solid #00ff88;
     padding:25px;
@@ -116,12 +117,7 @@ button{
     line-height:2;
 }
 
-/* ================= FINAL PAGE ================= */
-.final{
-    font-size:1.25rem;
-}
-
-/* ================= FADE ================= */
+/* ================= FADE IN ================= */
 h1,h2,p{
     animation:fade 0.8s ease forwards;
     opacity:0;
@@ -162,7 +158,7 @@ EVENTO COMPLEANNO RILEVATO
 <h2>SCANSIONE IN CORSO</h2>
 
 <p>
-Analisi evento sistema<br>
+Analisi sistema evento<br>
 ⚠ livello festa massimo ⚠
 </p>
 
@@ -204,18 +200,21 @@ COUNTDOWN:<br>
 </div>
 </div>
 
-<!-- ================= PAGE 5 ================= -->
+<!-- ================= PAGE 5 FINAL ================= -->
 <div class="screen hidden" id="s5">
 <div class="container">
 
-<h2>CONFERMA PRESENZA</h2>
+<h2>CONFERMA PARTECIPAZIONE</h2>
 
-<p class="final">
-Per completare il protocollo è obbligatorio<br><br>
+<p>
+⚠ SISTEMA RICHIEDE CONFERMA DEFINITIVA ⚠<br><br>
 
-📩 confermare la propria presenza tramite sondaggio WhatsApp<br><br>
+Per completare il protocollo evento:<br><br>
 
-Il sistema attende risposta per validazione evento.
+📩 conferma partecipazione su WhatsApp<br>
+📊 rispondi al sondaggio ufficiale<br><br>
+
+Senza conferma, l’accesso non verrà registrato.
 </p>
 
 </div>
@@ -258,7 +257,7 @@ drops[i]++;
 
 setInterval(draw,30);
 
-/* ================= NAV ================= */
+/* ================= NAVIGATION ================= */
 function next(n){
 document.getElementById("s"+n).classList.add("hidden");
 document.getElementById("s"+(n+1)).classList.remove("hidden");
