@@ -7,6 +7,7 @@
 
 <style>
 
+/* ================= RESET ================= */
 *{
     margin:0;
     padding:0;
@@ -19,6 +20,29 @@ body{
     color:white;
 }
 
+/* ================= MATRIX BACKGROUND ================= */
+canvas{
+    position:fixed;
+    inset:0;
+    z-index:0;
+}
+
+.overlay{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    background: radial-gradient(circle at center,
+        rgba(0,255,136,0.12),
+        transparent 60%);
+    animation:pulse 4s infinite alternate;
+    pointer-events:none;
+}
+
+@keyframes pulse{
+    from{opacity:0.3;}
+    to{opacity:1;}
+}
+
 /* ================= SCREENS ================= */
 .screen{
     position:fixed;
@@ -28,19 +52,19 @@ body{
     align-items:center;
     text-align:center;
     padding:20px;
+    z-index:10;
 }
 
 .hidden{display:none;}
 
 .container{
     width:90%;
-    max-width:900px;
+    max-width:850px;
 }
 
 /* ================= PAGE 1 RED ================= */
 #s1{
     background:#b30000;
-    color:white;
 }
 
 /* ================= PAGE 2 YELLOW ================= */
@@ -49,27 +73,21 @@ body{
     color:black;
 }
 
-/* ================= PAGE 3 DARK ================= */
+/* ================= PAGE 3 BLACK ================= */
 #s3{
     background:black;
     color:#00ff88;
 }
 
-/* ================= PAGE 4 ================= */
+/* ================= PAGE 4 BLACK ================= */
 #s4{
     background:black;
     color:#00ff88;
 }
 
-/* ================= PAGE 5 ================= */
-#s5{
-    background:black;
-    color:white;
-}
-
-/* ================= TEXT ================= */
+/* ================= TYPO ================= */
 h1{
-    font-size:2.5rem;
+    font-size:2.6rem;
     margin-bottom:20px;
 }
 
@@ -87,7 +105,7 @@ p{
 button{
     margin-top:20px;
     padding:14px 24px;
-    border:1px solid white;
+    border:1px solid currentColor;
     background:transparent;
     color:inherit;
     cursor:pointer;
@@ -102,16 +120,38 @@ button{
     50%{opacity:0.2;}
 }
 
+/* ================= EVENT BOX ================= */
+.eventBox{
+    border:1px solid #00ff88;
+    padding:25px;
+    margin-top:20px;
+}
+
+.bigEvent{
+    font-size:2.2rem;
+    color:white;
+    text-shadow:0 0 10px #00ff88;
+}
+
 /* ================= COUNTDOWN ================= */
 #countdown{
     margin-top:10px;
     font-size:1.2rem;
 }
 
+/* ================= CENTER FIX MOBILE ================= */
+.container{
+    text-align:center;
+}
+
 </style>
 </head>
 
 <body>
+
+<!-- MATRIX BACKGROUND -->
+<canvas id="matrix"></canvas>
+<div class="overlay"></div>
 
 <!-- ================= PAGE 1 ================= -->
 <div class="screen" id="s1">
@@ -122,7 +162,7 @@ button{
 <p>
 ACCESSO NON AUTORIZZATO RILEVATO<br><br>
 
-Evento identificato: COMPLEANNO 23 MAGGIO<br><br>
+Evento identificato: COMPLEANNO IN ARRIVO<br><br>
 
 Sistema in modalità emergenza sociale.
 </p>
@@ -136,13 +176,13 @@ Sistema in modalità emergenza sociale.
 <div class="screen hidden" id="s2">
 <div class="container">
 
-<h2>SCANSIONE IN CORSO...</h2>
+<h2 class="blink">SCANSIONE IN CORSO...</h2>
 
 <p>
-ANALISI EVENTO IN ESECUZIONE<br><br>
+Analisi sistema evento...<br><br>
 
-⚠ RISCHIO DIVERTIMENTO: MASSIMO ⚠<br>
-⚠ STABILITÀ SOCIALE: COMPROMESSA ⚠
+⚠ rischio divertimento: massimo ⚠<br>
+⚠ stabilità sociale: instabile ⚠
 </p>
 
 <button onclick="next(2)">ENTRA</button>
@@ -171,34 +211,35 @@ presenza consigliata dal sistema
 
 <h2>EVENTO RILEVATO</h2>
 
-<p>
-🎉 23 MAGGIO — 19:30 🎉<br><br>
+<div class="eventBox">
+
+<div class="bigEvent">
+🎉 23 MAGGIO — 19:30 🎉
+</div>
+
+<br>
 
 CASA DI ILARIA<br><br>
 
-STATUS: COMPLEANNO IN ARRIVO<br><br>
+STATUS: COMPLEANNO ATTIVO<br><br>
+
+FRASI SISTEMA:<br>
+- utente classificato: protagonista evento<br>
+- memoria consigliata: OFF<br>
+- livello festa: massimo
+
+<br><br>
 
 COUNTDOWN:<br>
 <div id="countdown"></div>
-</p>
-
-<button onclick="next(4)">CONTINUA</button>
 
 </div>
-</div>
 
-<!-- ================= PAGE 5 ================= -->
-<div class="screen hidden" id="s5">
-<div class="container">
-
-<h2>TRASMISSIONE COMPLETATA</h2>
+<br>
 
 <p>
-Per confermare la tua presenza è obbligatorio<br><br>
-
-compilare il sondaggio WhatsApp ufficiale dell’evento.<br><br>
-
-⚠ SENZA CONFERMA LA PRESENZA NON È REGISTRATA ⚠
+Per confermare la presenza è obbligatorio<br>
+compilare il sondaggio WhatsApp dell’evento.
 </p>
 
 </div>
@@ -206,25 +247,59 @@ compilare il sondaggio WhatsApp ufficiale dell’evento.<br><br>
 
 <script>
 
-/* NAVIGATION */
+/* ================= MATRIX ================= */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const chars = "01アイウエオカキクケコ";
+const font = 14;
+const cols = canvas.width / font;
+
+const drops = Array(Math.floor(cols)).fill(1);
+
+function draw(){
+
+    ctx.fillStyle = "rgba(0,0,0,0.08)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle = "#00ff88";
+    ctx.font = font + "px monospace";
+
+    for(let i=0;i<drops.length;i++){
+        let t = chars[Math.floor(Math.random()*chars.length)];
+        ctx.fillText(t,i*font,drops[i]*font);
+
+        if(drops[i]*font > canvas.height && Math.random() > 0.975){
+            drops[i] = 0;
+        }
+        drops[i]++;
+    }
+}
+
+setInterval(draw,30);
+
+/* ================= NAV ================= */
 function next(n){
 document.getElementById("s"+n).classList.add("hidden");
 document.getElementById("s"+(n+1)).classList.remove("hidden");
 }
 
-/* COUNTDOWN */
-const target=new Date("2026-05-23T19:30:00");
+/* ================= COUNTDOWN ================= */
+const target = new Date("2026-05-23T19:30:00");
 
 function update(){
-let now=new Date();
-let d=target-now;
+let now = new Date();
+let d = target - now;
 
-let days=Math.floor(d/86400000);
-let h=Math.floor(d%86400000/3600000);
-let m=Math.floor(d%3600000/60000);
-let s=Math.floor(d%60000/1000);
+let days = Math.floor(d/86400000);
+let h = Math.floor(d%86400000/3600000);
+let m = Math.floor(d%3600000/60000);
+let s = Math.floor(d%60000/1000);
 
-document.getElementById("countdown").innerHTML=
+document.getElementById("countdown").innerHTML =
 `${days}g ${h}h ${m}m ${s}s`;
 }
 
