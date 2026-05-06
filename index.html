@@ -24,17 +24,29 @@ body{
     color:#00ff88;
 }
 
+/* MATRIX CANVAS */
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:0;
+}
+
+/* CONTAINER */
 .container{
     position:relative;
-    z-index:3;
+    z-index:5;
     width:90%;
     max-width:850px;
-    padding:45px;
+    padding:40px;
     border:1px solid rgba(0,255,136,0.5);
-    background:rgba(0,0,0,0.65);
+    background:rgba(0,0,0,0.75);
     text-align:center;
 }
 
+/* SCREENS */
 .screen{
     position:fixed;
     inset:0;
@@ -65,6 +77,13 @@ button{
     animation:glitch 1s infinite;
 }
 
+.warning{
+    margin-top:20px;
+    color:#ff004c;
+    animation:blink 1s infinite;
+}
+
+/* ANIMAZIONI */
 @keyframes glitch{
     0%{transform:translate(0);}
     25%{transform:translate(-2px,2px);}
@@ -73,15 +92,17 @@ button{
     100%{transform:translate(0);}
 }
 
-.warning{
-    margin-top:20px;
-    color:#ff004c;
+@keyframes blink{
+    50%{opacity:0;}
 }
 
 </style>
 </head>
 
 <body>
+
+<!-- MATRIX BACKGROUND -->
+<canvas id="matrix"></canvas>
 
 <!-- 1 -->
 <div class="screen" id="screen1">
@@ -105,8 +126,6 @@ button{
     <h2 class="glitch">SCANSIONE IN CORSO...</h2>
 
     <p>
-        Verifica requisiti minimi:<br><br>
-
         ✔ capacità di festeggiare<br>
         ✔ resistenza psicologica al karaoke<br>
         ✔ tolleranza al caos<br>
@@ -138,23 +157,24 @@ button{
     <p>
         È stato rilevato un raro fenomeno cosmico.<br><br>
 
-        Dopo attente analisi, gli esperti confermano che il soggetto in questione sopravviverà per un altro anno terrestre.<br><br>
+        Dopo attente analisi, gli esperti confermano sopravvivenza al prossimo anno terrestre.<br><br>
 
         █ DATA DELL'EVENTO █<br><br>
 
         23 MAGGIO — 19:30<br><br>
 
-        Località: a casa di Ilaria<br><br>
+        Casa di Ilaria<br><br>
 
         Dress code: mentalmente instabili ma eleganti.<br><br>
 
-        Possibili effetti collaterali:<br>
+        Effetti collaterali:<br>
         - perdita della dignità<br>
         - foto discutibili<br>
         - karaoke non autorizzato<br>
         - ricordi incompleti<br><br>
 
-        INIZIO ANOMALIA TRA: 17g 6h 15m 42s
+        INIZIO ANOMALIA TRA:<br>
+        <span id="countdown"></span>
     </p>
 
     <button onclick="screen5()">CONTINUA</button>
@@ -196,6 +216,72 @@ function screen5(){
     document.getElementById("screen4").classList.add("hidden");
     document.getElementById("screen5").classList.remove("hidden");
 }
+
+/* =========================
+   MATRIX EFFECT BACKGROUND
+========================= */
+
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const letters = "01アイウエオカキクケコサシスセソABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+
+const drops = Array(Math.floor(columns)).fill(1);
+
+function drawMatrix(){
+    ctx.fillStyle = "rgba(0,0,0,0.08)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle = "#00ff88";
+    ctx.font = fontSize + "px monospace";
+
+    for(let i=0;i<drops.length;i++){
+        const text = letters[Math.floor(Math.random()*letters.length)];
+        ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+
+        if(drops[i]*fontSize > canvas.height && Math.random() > 0.975){
+            drops[i]=0;
+        }
+
+        drops[i]++;
+    }
+}
+
+setInterval(drawMatrix, 35);
+
+/* =========================
+   COUNTDOWN REAL TIME
+========================= */
+
+const target = new Date("2026-05-23T19:30:00");
+
+function updateCountdown(){
+
+    const now = new Date();
+    const diff = target - now;
+
+    if(diff <= 0){
+        document.getElementById("countdown").innerHTML = "⚠ EVENTO IN CORSO ⚠";
+        return;
+    }
+
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff / (1000*60*60)) % 24);
+    const minutes = Math.floor((diff / (1000*60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("countdown").innerHTML =
+    `${days}g ${hours}h ${minutes}m ${seconds}s`;
+
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
 
 </script>
 
